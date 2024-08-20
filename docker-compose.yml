@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - api-gateway
+
+  service-1:
+    build: ./services/service-1
+    ports:
+      - "5001:5000"
+
+  service-2:
+    build: ./services/service-2
+    ports:
+      - "5002:5000"
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "80:80"
+    depends_on:
+      - service-1
+      - service-2
+
+networks:
+  default:
+    external:
+      name: your-custom-network
