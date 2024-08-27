@@ -1,6 +1,9 @@
+//import your componets
+
 const App = () => {
   return (
-    <div className='text-3xl font-bold underline'> Welcome </div>
+    //Add your Routes here
+    <div> Welcome to the App </div>
   )
 }
 
