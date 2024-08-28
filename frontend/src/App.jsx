@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 //Home
@@ -8,6 +9,9 @@ import Header from './components/Taskmanagement/Header';
 import Center from './components/Taskmanagement/Center';
 
 function App() {
+
+  const [boardModalOpen, setBoardModalOpen] = useState(false);
+
   return (
     <Router>
       <div>
@@ -21,7 +25,7 @@ function App() {
             path="/taskmanagement" 
             element={
               <>
-                <Header />
+                <Header boardModalOpen = {boardModalOpen} setBoardModalOpen = {setBoardModalOpen} />
                 <Center />
               </>
             } 
