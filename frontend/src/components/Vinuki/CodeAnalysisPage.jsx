@@ -3,7 +3,7 @@
 import React from 'react';
 import CodeInput from './CodeInput';
 import RightPanel from './RightPanel.jsx';
-import ResultWindow from './ResultWindow';
+import ResultWindow from './ResultWindow.jsx';
 
 function CodeAnalysisPage() {
   return (
