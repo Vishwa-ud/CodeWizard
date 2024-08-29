@@ -1,4 +1,12 @@
-
+version: '3.8'
+services:
+  codebase-analyzer:
+    container_name: codebase-analyzer
+    build: ./services/Codebase-Analyzer
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./services/Codebase-Analyzer:/app
 
   # api-gateway:
   #   container_name: gateway
