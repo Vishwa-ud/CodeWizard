@@ -37,8 +37,8 @@ function BasicUI() {
   };
 
   const isValidCodeSnippet = (code) => {
-    // Basic validation to check if the snippet is a valid code (e.g., contains at least a few non-whitespace characters and common code syntax characters)
-    return /\S/.test(code) && /[\{\}\(\);=]/.test(code);
+    // Basic validation to check if the snippet is a valid code 
+    return /\S/.test(code) && /[{}();=]/.test(code);
   };
 
   const handleQuickPaste = () => {
