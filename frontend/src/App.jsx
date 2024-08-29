@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 
 //Home
 import Home from './components/Home/Home';
@@ -37,6 +37,8 @@ function App() {
               </>
             } 
           />
+
+
           {/* Nadun */}
           <Route 
             path="/gen" 
@@ -51,12 +53,27 @@ function App() {
           {/* Vinuki */}
           <Route 
             path="/code-analysis" 
-            element={<CodeAnalysisPage />} 
-          
+            element={
+              <>
+                <CodeAnalysisPage />
+              </>
+            } 
           />
 
 
           {/* Sathira */}
+
+          {/*route to redirect wrong paths to home page */}
+          <Route 
+            path="*" 
+            element={
+              <Navigate 
+                to="/" 
+                replace 
+                />
+              } 
+          /> {/* redirect to home */}
+        
         </Routes>
       </div>
     </Router>
