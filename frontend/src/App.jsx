@@ -11,6 +11,10 @@ import Center from './components/Taskmanagement/Center';
 //nadu
 import BasicUI from './components/FlowChartGen/BasicUI';
 
+//vinu
+import CodeAnalysisPage from "./components/Vinuki/CodeAnalysisPage";
+
+
 function App() {
 
   const [boardModalOpen, setBoardModalOpen] = useState(false);
@@ -42,7 +46,16 @@ function App() {
               </>
             } 
           />
+          
+            
           {/* Vinuki */}
+          <Route 
+            path="/code-analysis" 
+            element={<CodeAnalysisPage />} 
+          
+          />
+
+
           {/* Sathira */}
         </Routes>
       </div>
