@@ -1,19 +1,17 @@
 version: '3.8'
 services:
+  api-gateway:
+    container_name: gateway
+    build: ./api-gateway/
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./api-gateway:/app
+    environment:
+      - SERVICE_NAME_CA=http://codebase-analyzer:3001
   codebase-analyzer:
     container_name: codebase-analyzer
     build: ./services/Codebase-Analyzer
-    ports:
-      - "3001:3001"
     volumes:
       - ./services/Codebase-Analyzer:/app
 
-  # api-gateway:
-  #   container_name: gateway
-  #   build: ./backend/api-gateway/
-  #   ports:
-  #     - "5000:5000"
-  #   volumes:
-  #     - ./api-gateway:/app
-  #   environment:
-  #     - SERVICE_NAME_LEC=http://lecturer-service:1113

@@ -1,8 +1,9 @@
 from flask import Flask
 
 app = Flask(__name__)
+app.url_map.strict_slashes = False
 
-@app.route('/')
+@app.route('/calculate')
 def hello_world():
     return 'Hello from Service 1!'
 
