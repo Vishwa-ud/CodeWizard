@@ -1,50 +1,88 @@
 import { useState } from 'react';
+import ReactFlow, { MiniMap, Controls, Background } from 'reactflow';
+import 'reactflow/dist/style.css';
 
 function BasicUI() {
   const [codeSnippet, setCodeSnippet] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [flowchartData, setFlowchartData] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess(false);
+    setFlowchartData(null);
 
     if (!codeSnippet.trim()) {
       setError('Please paste a code snippet before submitting.');
       return;
     }
 
-    if (!isValidCodeSnippet(codeSnippet)) {
-      setError('Invalid code snippet. Please check your code and try again.');
+    if (!isValidPythonCode(codeSnippet)) {
+      setError('Invalid Python code snippet. Please ensure the code is correctly formatted.');
       return;
     }
 
     setLoading(true);
 
-    // Simulating an API call with a delay
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const response = await fetch('http://127.0.0.1:5000/generate-flowchart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code: codeSnippet, language: 'python' }),
+      });
 
-      // Simulate random server error
-      if (Math.random() > 0.8) {
-        setError('Server error occurred. Please try again later.');
-      } else {
-        setSuccess(true);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
-    }, 2000);
+
+      const data = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      // Validate response structure
+      if (!Array.isArray(data.edges) || !Array.isArray(data.nodes)) {
+        throw new Error('Invalid flowchart data received from the server.');
+      }
+
+      // Ensure each node has required properties
+      data.nodes.forEach((node) => {
+        if (!node.id || !node.data.label) {
+          throw new Error('Each node must have an id and label.');
+        }
+      });
+
+      // Ensure each edge has source and target
+      data.edges.forEach((edge) => {
+        if (!edge.source || !edge.target) {
+          throw new Error('Each edge must have source and target.');
+        }
+      });
+
+      setFlowchartData(data); // Set flowchart data
+      setSuccess(true);
+    } catch (error) {
+      setError(error.message || 'Server error occurred. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const isValidCodeSnippet = (code) => {
-    // Basic validation to check if the snippet is a valid code 
-    return /\S/.test(code) && /[{}();=]/.test(code);
+  const isValidPythonCode = (code) => {
+    // Basic regex to validate Python code structure
+    const regex = /^(def\s+\w+\(.*\):|^\s*if\s+.*:|^\s*else:|^\s*for\s+.*:|^\s*return\s+.*|^\s*print\(.*\))/m;
+    return regex.test(code);
   };
 
   const handleQuickPaste = () => {
-    setCodeSnippet(`function example() {
-  console.log('This is a quick-paste example!');
-}`);
+    setCodeSnippet(`def example():
+  print("This is a quick-paste example!")`);
   };
 
   return (
@@ -93,12 +131,31 @@ function BasicUI() {
                 <p className="text-red-500">{error}</p>
               </div>
             )}
-            {success && (
+            {success && !loading && (
               <div className="p-2 w-full text-center">
                 <p className="text-green-500">Code snippet submitted successfully!</p>
               </div>
             )}
           </form>
+          {flowchartData && (
+            <div className="p-2 w-full mt-12">
+              <h2 className="text-2xl font-medium text-white mb-4">Generated Flowchart</h2>
+              <div style={{ height: '500px' }}>
+                <ReactFlow
+                  nodes={flowchartData.nodes.map((node) => ({
+                    ...node,
+                    position: node.position || { x: 0, y: 0 }, // Ensure position exists
+                  }))}
+                  edges={flowchartData.edges}
+                  fitView
+                >
+                  <MiniMap />
+                  <Controls />
+                  <Background />
+                </ReactFlow>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>
