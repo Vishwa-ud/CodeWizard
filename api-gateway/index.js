@@ -19,15 +19,15 @@ const services = [
   {
     //all services endpoints
     
-    route: "/cap",
-    target: `${process.env.SERVICE_NAME_STORAGE}/capcheck`,
+    route: "/imagine",
+    target: `${process.env.SERVICE_NAME_CA}/calculate`,
     headers: {
       "x-api-key": "apikey",
     },
   },
   {
-    route: "/create",
-    target: `${process.env.SERVICE_NAME_AUTH}/api/v1/users`,
+    route: "/originalpath",
+    target: `${process.env.SERVICE_NAME_HERE}/fakepath`,
     headers: {
       "x-api-key": "apikey",
     },

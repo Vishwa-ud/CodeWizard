@@ -8,6 +8,9 @@ import Home from './components/Home/Home';
 import Header from './components/Taskmanagement/Header';
 import Center from './components/Taskmanagement/Center';
 
+//nadu
+import BasicUI from './components/FlowChartGen/BasicUI';
+
 function App() {
 
   const [boardModalOpen, setBoardModalOpen] = useState(false);
@@ -31,6 +34,14 @@ function App() {
             } 
           />
           {/* Nadun */}
+          <Route 
+            path="/gen" 
+            element={
+              <>
+                <BasicUI />
+              </>
+            } 
+          />
           {/* Vinuki */}
           {/* Sathira */}
         </Routes>

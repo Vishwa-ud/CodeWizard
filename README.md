@@ -2,11 +2,16 @@
 
 This project demonstrates a basic microservice architecture with a frontend, multiple backend services, and an API Gateway, all running in Docker containers using Docker Compose.
 
+## ports
+
+- 5000 : api gatrway
+- 3001 : codebase analyzer
+
 ## Project Structure
 
 - **frontend/**: Contains the React frontend application.
 - **services/**: Contains the microservices (e.g., service-1, service-2).
-- **api-gateway/**: Contains the API Gateway configuration (using Nginx).
+- **api-gateway/**: Contains the API Gateway configuration.
 - **shared/**: Contains shared utilities or common configurations.
 - **docker-compose.yml**: Docker Compose configuration file to orchestrate the services.
 
