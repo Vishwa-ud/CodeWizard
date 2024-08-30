@@ -96,17 +96,4 @@ def generate_flowchart_from_code(code, language):
         "pretty_code": pretty_code
     }
 
-# Example usage
-code = """
-def greet(name):
-    if name:
-        return f'Hello, {name}!'
-    else:
-        return 'Hello, world!'
 
-for i in range(3):
-    print(greet('Alice'))
-"""
-language = 'python'
-flowchart_data = generate_flowchart_from_code(code, language)
-print(flowchart_data)

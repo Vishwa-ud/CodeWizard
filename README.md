@@ -27,6 +27,7 @@ Microservice Project with Frontend and API Gateway
 
    ```bash
    docker-compose up --build
+   python -m flask --app .\src\app.py run
    ```
 
 3. **Access the frontend:**

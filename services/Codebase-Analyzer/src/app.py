@@ -1,8 +1,11 @@
 from flask import Flask, jsonify, request
 from utils import generate_flowchart_from_code
+from flask_cors import CORS
+
 
 # Basic: Initialize the Flask application
 app = Flask(__name__)
+CORS(app)
 
 # Necessary: Disable strict slashes for URL routing
 app.url_map.strict_slashes = False
@@ -61,11 +64,13 @@ def generate_flowchart():
     except Exception as e:
         # Log the exception (can be expanded with a logging framework)
         print(f"Error generating flowchart: {str(e)}")
+        
 
         # Return an error response
         return jsonify({"error": "An error occurred while generating the flowchart"}), 500
 
 # Entry point to start the Flask application
 if __name__ == '__main__':
+    
     # Run the Flask app on all available IPs (0.0.0.0) and port 3001
     app.run(host='0.0.0.0', port=3001)
