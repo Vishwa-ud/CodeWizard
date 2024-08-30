@@ -29,29 +29,25 @@ function BasicUI() {
 
       const data = response.data;
 
-      // Handle cases where nodes or edges are missing
+      // Validate the response data
       if (!data.nodes || !data.edges) {
         throw new Error('Invalid response: No nodes or edges found.');
       }
 
-      // Validate nodes and edges
       if (!Array.isArray(data.nodes) || !Array.isArray(data.edges)) {
         throw new Error('Invalid flowchart data received from the server.');
       }
 
-      // Check if nodes and edges are empty
       if (data.nodes.length === 0 || data.edges.length === 0) {
         throw new Error('No nodes or edges to display.');
       }
 
-      // Ensure each node has required properties
       data.nodes.forEach((node) => {
-        if (!node.id || !node.data.label) {
+        if (!node.id || !node.label) {
           throw new Error('Each node must have an id and label.');
         }
       });
 
-      // Ensure each edge has source and target
       data.edges.forEach((edge) => {
         if (!edge.source || !edge.target) {
           throw new Error('Each edge must have source and target.');
@@ -60,7 +56,6 @@ function BasicUI() {
 
       setFlowchartData(data); // Set flowchart data
     } catch (err) {
-      // Handle network errors
       if (err.response) {
         setError(err.response?.data?.error || 'Server error occurred. Please try again later.');
       } else if (err.request) {
@@ -108,9 +103,8 @@ function BasicUI() {
   const getStartAndEndNodeIds = (nodes) => {
     if (nodes.length === 0) return { startId: null, endId: null };
 
-    // Assuming the first node is the start node and the last node is the end node
-    const startId = nodes[0].id;
-    const endId = nodes[nodes.length - 1].id;
+    const startId = nodes.find(node => node.label === 'Start')?.id;
+    const endId = nodes.find(node => node.label === 'End')?.id;
 
     return { startId, endId };
   };
@@ -156,6 +150,7 @@ function BasicUI() {
               <button
                 type="button"
                 className="mt-2 text-indigo-500 hover:text-indigo-300 text-sm"
+                onClick={() => setCodeSnippet(`def example():\n  if True:\n    print("This is a quick-paste example!")\n  else:\n    print("Alternative path")`)}
               >
                 Quick Paste Example
               </button>
