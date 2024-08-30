@@ -2,3 +2,4 @@ Flask # rest API
 astor # advanced AST manip
 pyflowchart # basic flowchart generator
 Graphviz # graph visualization
+python-code-analyzer # code analyzer

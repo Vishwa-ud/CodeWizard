@@ -10,6 +10,7 @@ import Center from './components/Taskmanagement/Center';
 
 //nadu
 import BasicUI from './components/FlowChartGen/BasicUI';
+import Analyzer from './components/FlowChartGen/Analyzer';
 
 function App() {
 
@@ -42,6 +43,14 @@ function App() {
               </>
             } 
           />
+          <Route 
+          path="/gen2" 
+          element={
+            <>
+              <Analyzer />
+            </>
+          } 
+        />
           {/* Vinuki */}
           {/* Sathira */}
         </Routes>
