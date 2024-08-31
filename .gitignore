@@ -18,3 +18,6 @@ docker-compose.override.yml
 
 # MacOS
 .DS_Store
+services/Codebase-Analyzer/__main___code_analysis_rich.html
+services/Codebase-Analyzer/__main___code_analysis.txt
+frontend/package-lock.json
