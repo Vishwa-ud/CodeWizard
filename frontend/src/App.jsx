@@ -15,6 +15,9 @@ import EmptyBoard from "./components/Taskmanagement/EmptyBoard";
 import BasicUI from "./components/FlowChartGen/BasicUI";
 import Analyzer from "./components/FlowChartGen/Analyzer";
 
+//common
+import CodeSubmission from "./components/CodeSubmission/CodeSubmission"
+
 function App() {
   const [boardModalOpen, setBoardModalOpen] = useState(false);
   const dispatch = useDispatch();
@@ -30,7 +33,7 @@ function App() {
           {/* main generation route */}
           <Route path="/generate" element={
             <>
-
+              <CodeSubmission />
             </>
             } />
 
