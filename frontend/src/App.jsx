@@ -1,6 +1,6 @@
 import { useState } from "react";
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 //Home
 import Home from "./components/Home/Home";
@@ -15,6 +15,11 @@ import EmptyBoard from "./components/Taskmanagement/EmptyBoard";
 import BasicUI from "./components/FlowChartGen/BasicUI";
 import Analyzer from "./components/FlowChartGen/Analyzer";
 
+//vinu
+import CodeAnalysisPage from "./components/Vinuki/CodeAnalysisPage";
+
+function App() {
+=======
 //common
 import CodeSubmission from "./components/CodeSubmission/CodeSubmission"
 
@@ -66,6 +71,8 @@ function App() {
               </div>
             }
           />
+
+
           {/* Nadun */}
           <Route
             path="/gen"
@@ -83,7 +90,19 @@ function App() {
               </>
             }
           />
+          
+            
           {/* Vinuki */}
+          <Route 
+            path="/code-analysis" 
+            element={
+              <>
+                <CodeAnalysisPage />
+              </>
+            } 
+          />
+
+
           {/* Sathira */}
 
           {/* disable other routes */}
