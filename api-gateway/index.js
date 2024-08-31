@@ -19,19 +19,22 @@ const services = [
   {
     //all services endpoints
     
-    route: "/imagine",
-    target: `${process.env.SERVICE_NAME_CA}/calculate`,
+    route: "/test",
+    target: `${process.env.SERVICE_NAME_CA}/test-ag`,
     headers: {
       "x-api-key": "apikey",
     },
   },
   {
-    route: "/originalpath",
-    target: `${process.env.SERVICE_NAME_HERE}/fakepath`,
+    //all services endpoints
+    
+    route: "/generate-flowchart",
+    target: `${process.env.SERVICE_NAME_CA}/generate-flowchart-ag`,
     headers: {
       "x-api-key": "apikey",
     },
   },
+  // ... Add more services here ...
 ];
 
 // Middleware function for setting headers

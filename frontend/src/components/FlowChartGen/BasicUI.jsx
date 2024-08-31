@@ -1,51 +1,131 @@
 import { useState } from 'react';
+import axios from 'axios';
+import ReactFlow, { MiniMap, Controls, Background } from 'reactflow';
+import 'reactflow/dist/style.css';
 
 function BasicUI() {
   const [codeSnippet, setCodeSnippet] = useState('');
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [flowchartData, setFlowchartData] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setSuccess(false);
+    setFlowchartData(null);
 
     if (!codeSnippet.trim()) {
       setError('Please paste a code snippet before submitting.');
       return;
     }
 
-    if (!isValidCodeSnippet(codeSnippet)) {
-      setError('Invalid code snippet. Please check your code and try again.');
-      return;
-    }
-
     setLoading(true);
 
-    // Simulating an API call with a delay
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/generate-flowchart-ag', {
+        code: codeSnippet,
+        language: 'python',
+      });
 
-      // Simulate random server error
-      if (Math.random() > 0.8) {
-        setError('Server error occurred. Please try again later.');
-      } else {
-        setSuccess(true);
+      const data = response.data;
+
+      // Validate the response data
+      if (!data.nodes || !data.edges) {
+        throw new Error('Invalid response: No nodes or edges found.');
       }
-    }, 2000);
+
+      if (!Array.isArray(data.nodes) || !Array.isArray(data.edges)) {
+        throw new Error('Invalid flowchart data received from the server.');
+      }
+
+      if (data.nodes.length === 0 || data.edges.length === 0) {
+        throw new Error('No nodes or edges to display.');
+      }
+
+      data.nodes.forEach((node) => {
+        if (!node.id || !node.label) {
+          throw new Error('Each node must have an id and label.');
+        }
+      });
+
+      data.edges.forEach((edge) => {
+        if (!edge.source || !edge.target) {
+          throw new Error('Each edge must have source and target.');
+        }
+      });
+
+      setFlowchartData(data); // Set flowchart data
+    } catch (err) {
+      if (err.response) {
+        setError(err.response?.data?.error || 'Server error occurred. Please try again later.');
+      } else if (err.request) {
+        setError('Network error: Failed to make the request. Please check your connection.');
+      } else {
+        setError(err.message || 'An unexpected error occurred.');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const isValidCodeSnippet = (code) => {
-    // Basic validation to check if the snippet is a valid code 
-    return /\S/.test(code) && /[{}();=]/.test(code);
+  const getNodeStyle = (nodeId, isStart, isEnd) => {
+    if (isStart) {
+      return {
+        backgroundColor: 'black',
+        width: '25px',
+        height: '25px',
+        borderRadius: '50%',
+        border: '2px solid white',
+      };
+    } else if (isEnd) {
+      return {
+        width: '30px',
+        height: '30px',
+        borderRadius: '50%',
+        backgroundColor: 'black',
+        border: '3px solid black',
+        color: 'white',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      };
+    } else {
+      return {
+        padding: '10px',
+        borderRadius: '5px',
+        backgroundColor: '#e8e8e8',
+        border: '1px solid #333',
+        whiteSpace: 'pre-wrap',
+      };
+    }
   };
 
-  const handleQuickPaste = () => {
-    setCodeSnippet(`function example() {
-  console.log('This is a quick-paste example!');
-}`);
+  const getStartAndEndNodeIds = (nodes) => {
+    if (nodes.length === 0) return { startId: null, endId: null };
+
+    const startId = nodes.find(node => node.label === 'Start')?.id;
+    const endId = nodes.find(node => node.label === 'End')?.id;
+
+    return { startId, endId };
   };
+
+  const { startId, endId } = getStartAndEndNodeIds(flowchartData?.nodes || []);
+
+  const styledNodes = flowchartData?.nodes.map((node) => {
+    const isStart = node.id === startId;
+    const isEnd = node.id === endId;
+
+    return {
+      ...node,
+      data: { label: node.label },
+      style: getNodeStyle(node.id, isStart, isEnd),
+    };
+  }) || [];
+
+  const styledEdges = flowchartData?.edges.map((edge) => ({
+    ...edge,
+    animated: true,
+  })) || [];
 
   return (
     <section className="text-gray-400 bg-gray-900 body-font relative">
@@ -69,8 +149,8 @@ function BasicUI() {
               </div>
               <button
                 type="button"
-                onClick={handleQuickPaste}
                 className="mt-2 text-indigo-500 hover:text-indigo-300 text-sm"
+                onClick={() => setCodeSnippet(`def example():\n  if True:\n    print("This is a quick-paste example!")\n  else:\n    print("Alternative path")`)}
               >
                 Quick Paste Example
               </button>
@@ -93,12 +173,23 @@ function BasicUI() {
                 <p className="text-red-500">{error}</p>
               </div>
             )}
-            {success && (
-              <div className="p-2 w-full text-center">
-                <p className="text-green-500">Code snippet submitted successfully!</p>
-              </div>
-            )}
           </form>
+          {flowchartData && (
+            <div className="p-2 w-full mt-12">
+              <h2 className="text-2xl font-medium text-white mb-4">Generated Flowchart</h2>
+              <div style={{ height: '500px' }}>
+                <ReactFlow
+                  nodes={styledNodes}
+                  edges={styledEdges}
+                  fitView
+                >
+                  <MiniMap />
+                  <Controls />
+                  <Background />
+                </ReactFlow>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>

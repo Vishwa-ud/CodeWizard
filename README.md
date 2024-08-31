@@ -1,18 +1,17 @@
-# Microservice Project with Frontend and API Gateway
+# CodeBase-Analyzer-microservice
 
-This project demonstrates a basic microservice architecture with a frontend, multiple backend services, and an API Gateway, all running in Docker containers using Docker Compose.
+Microservice Project with Frontend and API Gateway
 
 ## ports
 
-- 5000 : api gatrway
-- 3001 : codebase analyzer
+- ✅5000 : api gateway [all comms happened through here]
+- 🚫3001 : codebase analyzer [no direct access use api-gateway]
 
 ## Project Structure
 
 - **frontend/**: Contains the React frontend application.
-- **services/**: Contains the microservices (e.g., service-1, service-2).
+- **services/**: Contains the microservices (e.g., codebase-analyzer, service-2).
 - **api-gateway/**: Contains the API Gateway configuration.
-- **shared/**: Contains shared utilities or common configurations.
 - **docker-compose.yml**: Docker Compose configuration file to orchestrate the services.
 
 ## Setup Instructions
@@ -28,15 +27,15 @@ This project demonstrates a basic microservice architecture with a frontend, mul
 
    ```bash
    docker-compose up --build
+   python -m flask --app .\src\app.py run
    ```
 
 3. **Access the frontend:**
-   - Open your browser and navigate to `http://localhost:3000`.
+   - vite
+   - Open your browser and navigate to `http://localhost:5173`.
 
 4. **API Gateway:**
    - The API Gateway routes requests to the appropriate services:
-     - `http://localhost/service-1` -> Service 1
-     - `http://localhost/service-2` -> Service 2
 
 ## Notes
 
