@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 
 //Home
@@ -18,8 +18,6 @@ import Analyzer from "./components/FlowChartGen/Analyzer";
 //vinu
 import CodeAnalysisPage from "./components/Vinuki/CodeAnalysisPage";
 
-function App() {
-=======
 //common
 import CodeSubmission from "./components/CodeSubmission/CodeSubmission"
 

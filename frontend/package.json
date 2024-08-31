@@ -14,7 +14,6 @@
     "@react-three/fiber": "^8.17.6",
     "@reduxjs/toolkit": "^2.2.7",
     "@xyflow/react": "^12.2.0",
-    "axios": "^1.7.5",
     "bootstrap": "^5.3.3",
     "axios": "^1.7.6",
     "framer-motion": "^11.3.31",
