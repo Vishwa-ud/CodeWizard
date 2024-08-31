@@ -13,9 +13,11 @@ function CodeInput({ onAnalyze }) {
   
   return (
     <div className="card shadow-sm">
+
       <div className="card-header bg-primary text-white">Code Input Area</div>
       
       <div className="card-body">
+        
         <textarea
           className="form-control"
           rows="15"
@@ -27,7 +29,7 @@ function CodeInput({ onAnalyze }) {
         <button className="btn btn-primary mt-2" onClick={handleAnalyze}>
           Analyze Code
         </button>
-        
+
       </div>
     </div>
   );
