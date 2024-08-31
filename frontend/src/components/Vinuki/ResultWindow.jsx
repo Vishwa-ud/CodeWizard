@@ -12,6 +12,7 @@ function ResultWindow() {
                         <code>
                             {/* This is where optimized code will be displayed */}
                             // Optimized code output will appear here...
+                            
                         </code>
                     </pre>
                 </div>
