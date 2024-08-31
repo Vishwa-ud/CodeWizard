@@ -1,22 +1,21 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 //Home
-import Home from './components/Home/Home';
+import Home from "./components/Home/Home";
 
 // Vishwa
-import Header from './components/Taskmanagement/Header';
-import Center from './components/Taskmanagement/Center';
+import Header from "./components/Taskmanagement/Header";
+import Center from "./components/Taskmanagement/Center";
 import boardsSlice from "./redux/boardsSlice";
-import EmptyBoard from './components/Taskmanagement/EmptyBoard';
+import EmptyBoard from "./components/Taskmanagement/EmptyBoard";
 
 //nadu
-import BasicUI from './components/FlowChartGen/BasicUI';
-import Analyzer from './components/FlowChartGen/Analyzer';
+import BasicUI from "./components/FlowChartGen/BasicUI";
+import Analyzer from "./components/FlowChartGen/Analyzer";
 
 function App() {
-
   const [boardModalOpen, setBoardModalOpen] = useState(false);
   const dispatch = useDispatch();
   const boards = useSelector((state) => state.boards);
@@ -28,52 +27,64 @@ function App() {
     <Router>
       <div>
         <Routes>
+          {/* main generation route */}
+          <Route path="/generate" element={
+            <>
+
+            </>
+            } />
 
           {/* Home */}
           <Route path="/" element={<Home />} />
 
           {/* Vishwa */}
-          <Route 
-            path="/taskmanagement" 
+          <Route
+            path="/taskmanagement"
             element={
               <div className=" overflow-hidden  overflow-x-scroll">
-              <>
-                {boards.length > 0 ?
                 <>
-                <Header boardModalOpen = {boardModalOpen} setBoardModalOpen = {setBoardModalOpen} />
-                <Center boardModalOpen = {boardModalOpen} setBoardModalOpen = {setBoardModalOpen} />
+                  {boards.length > 0 ? (
+                    <>
+                      <Header
+                        boardModalOpen={boardModalOpen}
+                        setBoardModalOpen={setBoardModalOpen}
+                      />
+                      <Center
+                        boardModalOpen={boardModalOpen}
+                        setBoardModalOpen={setBoardModalOpen}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <EmptyBoard type="add" />
+                    </>
+                  )}
                 </>
-
-                
-                :
-                <>
-                  <EmptyBoard type='add'/>
-                </>
-              }  
-                
-              </>
               </div>
-            } 
+            }
           />
           {/* Nadun */}
-          <Route 
-            path="/gen" 
+          <Route
+            path="/gen"
             element={
               <>
                 <BasicUI />
               </>
-            } 
+            }
           />
-          <Route 
-          path="/gen2" 
-          element={
-            <>
-              <Analyzer />
-            </>
-          } 
-        />
+          <Route
+            path="/gen2"
+            element={
+              <>
+                <Analyzer />
+              </>
+            }
+          />
           {/* Vinuki */}
           {/* Sathira */}
+
+          {/* disable other routes */}
+          <Route path="*" element={<Home />} />
         </Routes>
       </div>
     </Router>
