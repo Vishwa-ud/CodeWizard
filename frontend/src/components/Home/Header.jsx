@@ -14,9 +14,18 @@ const Header = ({ p }) => {
           <span className="ml-3 text-xl">CodeWizard</span>
         </a>
         <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
-          <a className="mr-5 text-gray-200 hover:text-blue-600">Dashboard</a>
-          <a className="mr-5 text-gray-200 hover:text-blue-600">About us</a>
-          <a className="mr-5 text-gray-200 hover:text-blue-600">Contact</a>
+          <a className="mr-5 text-gray-200 hover:text-blue-600 cursor-pointer"
+          onClick={() => {
+            window.location.href = "/generate";
+          }}
+          >Dashboard</a>
+          <a className="mr-5 text-gray-200 hover:text-blue-600 cursor-pointer"
+          onClick={() => {
+            window.location.href = "/taskmanagement";
+          }}
+          >Task Board</a>
+          <a className="mr-5 text-gray-200 hover:text-blue-600 cursor-pointer">About us</a>
+          <a className="mr-5 text-gray-200 hover:text-blue-600 cursor-pointer">Contact</a>
         </nav>
         <button className="inline-flex items-center text-white bg-purple-500 border-0 py-1 px-3 focus:outline-none hover:bg-purple-600 rounded text-base mt-4 md:mt-0">
           Get Started

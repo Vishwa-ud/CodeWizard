@@ -57,8 +57,16 @@ function Header ({ setBoardModalOpen , boardModalOpen }) {
       
       {/* Left Side */}
       <div className=" flex items-center space-x-2  md:space-x-4">
-      <img src={Logo} alt=" Logo " className=" h-6 w-6" />
-      <h3 className=" md:text-4xl  hidden md:inline-block font-bold  font-sans">
+      <img src={Logo} alt=" Logo " className=" h-6 w-6" 
+      onClick={() => {
+        window.location.href = "/";
+      }}
+      />
+      <h3 className=" md:text-4xl  hidden md:inline-block font-bold  font-sans cursor-pointer"
+       onClick={() => {
+        window.location.href = "/";
+      }}
+      >
             CodeWizard
       </h3>
       <div className=" flex items-center ">
