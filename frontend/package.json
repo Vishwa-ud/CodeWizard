@@ -24,7 +24,7 @@
     "reactflow": "^11.11.4",
     "shadergradient": "^1.2.14",
     "tailwind-scrollbar-hide": "^1.1.7",
-    "three": "^0.168.0",
+    "three": "0.154.0",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
