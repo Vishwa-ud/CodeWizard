@@ -36,7 +36,7 @@ const Home = () => {
   return (
     <>
       <motion.div initial="hidden" animate="visible" variants={headerVariants}>
-        <Header />
+        <Header p={false} />
       </motion.div>
 
       <ShaderGradientCanvas

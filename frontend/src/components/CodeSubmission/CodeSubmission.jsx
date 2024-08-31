@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import ReactFlow, { MiniMap, Controls, Background } from 'reactflow';
 import 'reactflow/dist/style.css';
+import Header from '../Home/Header';
 
 
 function CodeSubmission() {
@@ -129,7 +130,10 @@ function CodeSubmission() {
   })) || [];
 
   return (
+    <>
+    <Header p={true} />
     <section className="text-gray-400 bg-gray-900 body-font relative">
+        
       <div className="container px-5 py-24 mx-auto">
         <div className="flex flex-col text-center w-full mb-12">
           <h1 className="sm:text-4xl text-3xl font-medium title-font mb-4 text-white">Code to Flowchart</h1>
@@ -194,6 +198,7 @@ function CodeSubmission() {
         </div>
       </div>
     </section>
+    </>
   );
 }
 
