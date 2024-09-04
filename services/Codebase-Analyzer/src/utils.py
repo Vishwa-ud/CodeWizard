@@ -1,5 +1,6 @@
 import ast
 import astor
+from pyflowchart import Flowchart
 
 def generate_flowchart_from_code(code, language):
     nodes = []
@@ -56,6 +57,7 @@ def generate_flowchart_from_code(code, language):
             edges.append({"id": f"e{parent_id}-{node_id}", "source": str(parent_id), "target": str(node_id)})
 
         return node_id
+    
 
     def traverse(node, parent_id=None, depth=0):
         current_id = None
@@ -160,4 +162,11 @@ def generate_flowchart_from_code(code, language):
         "nodes": nodes,
         "edges": edges,
         "pretty_code": pretty_code
+    }
+
+
+def flowchart_from_code(code,params):
+    fc = Flowchart.from_code(code, field='example', inner=False)
+    return {
+        "flowchart": fc.flowchart(),
     }

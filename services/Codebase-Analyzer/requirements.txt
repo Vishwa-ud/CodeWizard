@@ -3,3 +3,4 @@ astor # advanced AST manip
 pyflowchart # basic flowchart generator
 Graphviz # graph visualization
 python-code-analyzer # code analyzer
+pillow==9.5.0 # image processing library
