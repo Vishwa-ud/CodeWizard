@@ -1,7 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import ReactFlow, { MiniMap, Controls, Background } from "reactflow";
-import "reactflow/dist/style.css";
+import Flowchart from "react-simple-flowchart";
 import Header from "../Home/Header";
 import { ShaderGradientCanvas, ShaderGradient } from "shadergradient";
 import * as reactSpring from "@react-spring/three";
@@ -16,12 +15,12 @@ function CodeSubmission() {
   const [codeSnippet, setCodeSnippet] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [flowchartData, setFlowchartData] = useState(null);
+  const [flowchartCode, setFlowchartCode] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setFlowchartData(null);
+    setFlowchartCode("");
 
     if (!codeSnippet.trim()) {
       setError("Please paste a code snippet before submitting.");
@@ -42,31 +41,11 @@ function CodeSubmission() {
       const data = response.data;
 
       // Validate the response data
-      if (!data.nodes || !data.edges) {
-        throw new Error("Invalid response: No nodes or edges found.");
+      if (!data.flowchart) {
+        throw new Error("Invalid response: No flowchart found.");
       }
 
-      if (!Array.isArray(data.nodes) || !Array.isArray(data.edges)) {
-        throw new Error("Invalid flowchart data received from the server.");
-      }
-
-      if (data.nodes.length === 0 || data.edges.length === 0) {
-        throw new Error("No nodes or edges to display.");
-      }
-
-      data.nodes.forEach((node) => {
-        if (!node.id || !node.label) {
-          throw new Error("Each node must have an id and label.");
-        }
-      });
-
-      data.edges.forEach((edge) => {
-        if (!edge.source || !edge.target) {
-          throw new Error("Each edge must have source and target.");
-        }
-      });
-
-      setFlowchartData(data); // Set flowchart data
+      setFlowchartCode(data.flowchart); // Set flowchart data
     } catch (err) {
       if (err.response) {
         setError(
@@ -85,66 +64,34 @@ function CodeSubmission() {
     }
   };
 
-  const getNodeStyle = (nodeId, isStart, isEnd) => {
-    if (isStart) {
-      return {
-        backgroundColor: "black",
-        width: "25px",
-        height: "25px",
-        borderRadius: "50%",
-        border: "2px solid white",
-      };
-    } else if (isEnd) {
-      return {
-        width: "30px",
-        height: "30px",
-        borderRadius: "50%",
-        backgroundColor: "black",
-        border: "3px solid black",
-        color: "white",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      };
-    } else {
-      return {
-        padding: "10px",
-        borderRadius: "5px",
-        backgroundColor: "#e8e8e8",
-        border: "1px solid #333",
-        whiteSpace: "pre-wrap",
-      };
-    }
+  const opt = {
+    x: 0,
+    y: 0,
+    "line-width": 3,
+    "line-length": 50,
+    "text-margin": 10,
+    "font-size": 14,
+    "font-color": "black",
+    "line-color": "black",
+    "element-color": "black",
+    fill: "white",
+    "yes-text": "yes",
+    "no-text": "no",
+    "arrow-end": "block",
+    scale: 1,
+    symbols: {
+      start: {
+        "font-color": "red",
+        "element-color": "green",
+        "font-weight": "bold",
+      },
+      end: {
+        "font-color": "red",
+        "element-color": "green",
+        "font-weight": "bold",
+      },
+    },
   };
-
-  const getStartAndEndNodeIds = (nodes) => {
-    if (nodes.length === 0) return { startId: null, endId: null };
-
-    const startId = nodes.find((node) => node.label === "Start")?.id;
-    const endId = nodes.find((node) => node.label === "End")?.id;
-
-    return { startId, endId };
-  };
-
-  const { startId, endId } = getStartAndEndNodeIds(flowchartData?.nodes || []);
-
-  const styledNodes =
-    flowchartData?.nodes.map((node) => {
-      const isStart = node.id === startId;
-      const isEnd = node.id === endId;
-
-      return {
-        ...node,
-        data: { label: node.label },
-        style: getNodeStyle(node.id, isStart, isEnd),
-      };
-    }) || [];
-
-  const styledEdges =
-    flowchartData?.edges.map((edge) => ({
-      ...edge,
-      animated: true,
-    })) || [];
 
   return (
     <>
@@ -165,7 +112,7 @@ function CodeSubmission() {
       >
         <ShaderGradient
           control="query"
-          urlString="https://www.shadergradient.co/customize?animate=on&axesHelper=off&bgColor1=%23000000&bgColor2=%23000000&brightness=0.7&cAzimuthAngle=180&cDistance=2.8&cPolarAngle=80&cameraZoom=9.1&color1=%23606080&color2=%238d7dca&color3=%23212121&destination=onCanvas&embedMode=off&envPreset=city&format=gif&fov=45&frameRate=10&gizmoHelper=hide&grain=on&lightType=3d&pixelDensity=1&positionX=0&positionY=0&positionZ=0&range=enabled&rangeEnd=40&rangeStart=0&reflection=0.15&rotationX=50&rotationY=0&rotationZ=-60&shader=defaults&type=waterPlane&uAmplitude=0&uDensity=1.5&uFrequency=0&uSpeed=0.3&uStrength=1.5&uTime=8&wireframe=false"
+          urlString="https://www.shadergradient.co/"
         />
       </ShaderGradientCanvas>
 
@@ -245,27 +192,23 @@ function CodeSubmission() {
                 </div>
               )}
             </form>
-            {flowchartData && (
-             <div
-             className="p-2 w-full mt-12"
-             style={{
-               position: "relative",
-               backgroundColor: "rgba(255, 255, 255, 0.1)", 
-               borderRadius: "10px", // Optional: add rounded corners
-               backdropFilter: "blur(4px)", // Apply blur to background
-             }}
-           >
-             <h2 className="text-2xl font-medium text-white mb-4">
-               Generated Flowchart
-             </h2>
-             <div style={{ height: "500px" }}>
-               <ReactFlow nodes={styledNodes} edges={styledEdges} fitView>
-                 <MiniMap />
-                 <Controls />
-                 <Background />
-               </ReactFlow>
-             </div>
-           </div>
+            {flowchartCode && (
+              <div
+                className="p-2 w-full mt-12"
+                style={{
+                  position: "relative",
+                  backgroundColor: "rgba(255, 255, 255, 0.1)",
+                  borderRadius: "10px", // Optional: add rounded corners
+                  backdropFilter: "blur(4px)", // Apply blur to background
+                }}
+              >
+                <h2 className="text-2xl font-medium text-white mb-4">
+                  Generated Flowchart
+                </h2>
+                <div>
+                  <Flowchart chartCode={flowchartCode} options={opt} />
+                </div>
+              </div>
             )}
           </div>
         </div>

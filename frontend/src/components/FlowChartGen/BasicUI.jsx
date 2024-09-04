@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import axios from 'axios';
-import ReactFlow, { MiniMap, Controls, Background } from 'reactflow';
-import 'reactflow/dist/style.css';
 
 function BasicUI() {
   const [codeSnippet, setCodeSnippet] = useState('');
