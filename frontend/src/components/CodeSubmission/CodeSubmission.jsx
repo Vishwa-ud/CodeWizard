@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import Flowchart from "react-simple-flowchart";
+import { motion } from "framer-motion";
 import Header from "../Home/Header";
 import { ShaderGradientCanvas, ShaderGradient } from "shadergradient";
 import * as reactSpring from "@react-spring/three";
@@ -10,7 +11,7 @@ import { useScroll, useTransform } from "framer-motion";
 
 function CodeSubmission() {
   const { scrollY } = useScroll();
-  const scale = useTransform(scrollY, [0, 500], [1, 3]); // Adjust the scale range if needed
+  const scale = useTransform(scrollY, [0, 500], [1, 3]);
 
   const [codeSnippet, setCodeSnippet] = useState("");
   const [loading, setLoading] = useState(false);
@@ -20,7 +21,7 @@ function CodeSubmission() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setFlowchartCode("");
+    setFlowchartCode(""); // Clear existing flowchart before generating new one
 
     if (!codeSnippet.trim()) {
       setError("Please paste a code snippet before submitting.");
@@ -40,7 +41,6 @@ function CodeSubmission() {
 
       const data = response.data;
 
-      // Validate the response data
       if (!data.flowchart) {
         throw new Error("Invalid response: No flowchart found.");
       }
@@ -112,7 +112,7 @@ function CodeSubmission() {
       >
         <ShaderGradient
           control="query"
-          urlString="https://www.shadergradient.co/"
+          urlString="https://www.shadergradient.co/customize?animate=on&axesHelper=off&bgColor1=%23000000&bgColor2=%23000000&brightness=0.7&cAzimuthAngle=180&cDistance=2.8&cPolarAngle=80&cameraZoom=9.1&color1=%23606080&color2=%238d7dca&color3=%23212121&destination=onCanvas&embedMode=off&envPreset=city&format=gif&fov=45&frameRate=10&gizmoHelper=hide&grain=on&lightType=3d&pixelDensity=1&positionX=0&positionY=0&positionZ=0&range=enabled&rangeEnd=40&rangeStart=0&reflection=0.15&rotationX=50&rotationY=0&rotationZ=-60&shader=defaults&type=waterPlane&uAmplitude=0&uDensity=1.5&uFrequency=0&uSpeed=0.3&uStrength=1.5&uTime=8&wireframe=false"
         />
       </ShaderGradientCanvas>
 
@@ -167,8 +167,12 @@ function CodeSubmission() {
                   >
                     <option value="">Select a language</option>
                     <option value="py">Python</option>
-                    <option value="j" disabled="true">Java</option>
-                    <option value="js" disabled="true">Java Script</option>
+                    <option value="j" disabled="true">
+                      Java
+                    </option>
+                    <option value="js" disabled="true">
+                      Java Script
+                    </option>
                   </select>
                 </div>
                 <button
@@ -181,9 +185,7 @@ function CodeSubmission() {
               </div>
               {loading && (
                 <div className="p-2 w-full text-center">
-                  <p className="text-gray-500">
-                    Submitting your code snippet...
-                  </p>
+                  <p className="text-gray-500">Submitting your code snippet...</p>
                 </div>
               )}
               {error && (
@@ -193,13 +195,16 @@ function CodeSubmission() {
               )}
             </form>
             {flowchartCode && (
-              <div
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
                 className="p-2 w-full mt-12"
                 style={{
                   position: "relative",
                   backgroundColor: "rgba(255, 255, 255, 0.1)",
-                  borderRadius: "10px", // Optional: add rounded corners
-                  backdropFilter: "blur(4px)", // Apply blur to background
+                  borderRadius: "10px",
+                  backdropFilter: "blur(4px)",
                 }}
               >
                 <h2 className="text-2xl font-medium text-white mb-4">
@@ -208,7 +213,7 @@ function CodeSubmission() {
                 <div>
                   <Flowchart chartCode={flowchartCode} options={opt} />
                 </div>
-              </div>
+              </motion.div>
             )}
           </div>
         </div>
