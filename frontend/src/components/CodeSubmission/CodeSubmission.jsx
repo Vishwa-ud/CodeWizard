@@ -78,7 +78,7 @@ function CodeSubmission() {
     "yes-text": "yes",
     "no-text": "no",
     "arrow-end": "block",
-    scale: 1,
+    scale: 1.4,
     symbols: {
       start: {
         "font-color": "red",
