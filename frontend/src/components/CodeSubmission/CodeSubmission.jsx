@@ -1,27 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import Flowchart from "react-simple-flowchart";
-import { motion } from "framer-motion";
 import Header from "../Home/Header";
 import { ShaderGradientCanvas, ShaderGradient } from "shadergradient";
 import * as reactSpring from "@react-spring/three";
 import * as drei from "@react-three/drei";
 import * as fiber from "@react-three/fiber";
-import { useScroll, useTransform } from "framer-motion";
+import FlowchartResult from "./FlowchartResult"; // Import new component
 
 function CodeSubmission() {
-  const { scrollY } = useScroll();
-  const scale = useTransform(scrollY, [0, 500], [1, 3]);
-
   const [codeSnippet, setCodeSnippet] = useState("");
+  const [language, setLanguage] = useState("python");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [flowchartCode, setFlowchartCode] = useState("");
+  const [isValidCode, setIsValidCode] = useState(true); // For real-time validity check
+
+  useEffect(() => {
+    // Real-time code validation logic
+    if (!codeSnippet.trim()) {
+      setIsValidCode(false);
+    } else {
+      setIsValidCode(true);
+    }
+  }, [codeSnippet]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    setFlowchartCode(""); // Clear existing flowchart before generating new one
+    setFlowchartCode("");
 
     if (!codeSnippet.trim()) {
       setError("Please paste a code snippet before submitting.");
@@ -35,7 +41,7 @@ function CodeSubmission() {
         "http://127.0.0.1:5000/generate-flowchart-ag",
         {
           code: codeSnippet,
-          language: "python",
+          language: language,
         }
       );
 
@@ -45,52 +51,15 @@ function CodeSubmission() {
         throw new Error("Invalid response: No flowchart found.");
       }
 
-      setFlowchartCode(data.flowchart); // Set flowchart data
+      setFlowchartCode(data.flowchart);
     } catch (err) {
-      if (err.response) {
-        setError(
-          err.response?.data?.error ||
-            "Server error occurred. Please try again later."
-        );
-      } else if (err.request) {
-        setError(
-          "Network error: Failed to make the request. Please check your connection."
-        );
-      } else {
-        setError(err.message || "An unexpected error occurred.");
-      }
+      setError(
+        err.response?.data?.error ||
+          "An unexpected error occurred. Please try again later."
+      );
     } finally {
       setLoading(false);
     }
-  };
-
-  const opt = {
-    x: 0,
-    y: 0,
-    "line-width": 3,
-    "line-length": 50,
-    "text-margin": 10,
-    "font-size": 14,
-    "font-color": "black",
-    "line-color": "black",
-    "element-color": "black",
-    fill: "white",
-    "yes-text": "yes",
-    "no-text": "no",
-    "arrow-end": "block",
-    scale: 1.4,
-    symbols: {
-      start: {
-        "font-color": "red",
-        "element-color": "green",
-        "font-weight": "bold",
-      },
-      end: {
-        "font-color": "red",
-        "element-color": "green",
-        "font-weight": "bold",
-      },
-    },
   };
 
   return (
@@ -106,8 +75,6 @@ function CodeSubmission() {
           width: "100vw",
           height: "100vh",
           zIndex: -1,
-          transform: `scale(${scale})`,
-          transformOrigin: "center center",
         }}
       >
         <ShaderGradient
@@ -116,34 +83,36 @@ function CodeSubmission() {
         />
       </ShaderGradientCanvas>
 
-      <section className="text-gray-400 bg-transparent body-font relative">
-        <div className="container px-5 py-24 mx-auto">
-          <div className="flex flex-col text-center w-full mb-12">
+      <section className="text-gray-400 bg-transparent body-font relative h-screen">
+        <div className="container px-5 py-8 mx-auto flex flex-col h-full">
+          <div className="flex flex-col text-center w-full mb-6">
             <h1 className="sm:text-4xl text-3xl font-medium title-font mb-4 text-white">
               Code to Flowchart
             </h1>
             <p className="lg:w-2/3 mx-auto leading-relaxed text-base">
-              Submit your code snippet below to convert it into a flowchart.
+              Paste your code snippet below to convert it into a flowchart.
             </p>
           </div>
-          <div className="lg:w-1/2 md:w-2/3 mx-auto">
-            <form onSubmit={handleSubmit} className="flex flex-wrap -m-2">
-              <div className="p-2 w-full">
-                <div className="relative">
-                  <label
-                    htmlFor="codeSnippet"
-                    className="leading-7 text-sm text-gray-400"
-                  >
-                    Code Snippet
-                  </label>
-                  <textarea
-                    id="codeSnippet"
-                    name="codeSnippet"
-                    value={codeSnippet}
-                    onChange={(e) => setCodeSnippet(e.target.value)}
-                    className="w-full bg-gray-800 bg-opacity-50 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 h-32 text-base outline-none text-white py-2 px-4 resize-none leading-6 transition-colors duration-200 ease-in-out"
-                  />
-                </div>
+
+          {/* Code Input Section */}
+          <div className="flex flex-grow flex-col lg:w-2/3 mx-auto">
+            <form onSubmit={handleSubmit} className="h-full flex flex-col">
+              <div className="flex-grow">
+                <label
+                  htmlFor="codeSnippet"
+                  className="leading-7 text-sm text-gray-400"
+                >
+                  Code Snippet
+                </label>
+                <textarea
+                  id="codeSnippet"
+                  name="codeSnippet"
+                  value={codeSnippet}
+                  onChange={(e) => setCodeSnippet(e.target.value)}
+                  className="w-full h-2/3 bg-gray-800 bg-opacity-50 rounded border border-gray-700 focus:border-indigo-500 focus:bg-gray-900 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-white py-2 px-4 resize-none leading-6 transition-colors duration-200 ease-in-out"
+                  style={{ minHeight: "50vh" }} // Ensuring it takes 2/3 of the height
+                />
+
                 <button
                   type="button"
                   className="mt-2 text-indigo-500 hover:text-indigo-300 text-sm"
@@ -156,66 +125,63 @@ function CodeSubmission() {
                   Quick Paste Example
                 </button>
               </div>
-              <div className="p-2 w-full">
+
+              {/* Options Section */}
+              <div className="flex flex-row justify-between items-center mt-4">
                 <div className="flex-1">
-                  <label className="text-white" htmlFor="country">
+                  <label className="text-white" htmlFor="language">
                     Programming Language
                   </label>
                   <select
                     className="w-full bg-gray-800 rounded-md border-gray-700 text-white px-2 py-1"
-                    id="country"
+                    id="language"
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value)}
                   >
-                    <option value="">Select a language</option>
-                    <option value="py">Python</option>
-                    <option value="j" disabled="true">
-                      Java
+                    <option value="python">Python</option>
+                    <option value="js" disabled>
+                      JavaScript (Coming soon)
                     </option>
-                    <option value="js" disabled="true">
-                      Java Script
+                    <option value="js" disabled>
+                      Java (Coming soon)
                     </option>
                   </select>
                 </div>
-                <button
-                  type="submit"
-                  className="mt-8 flex mx-auto text-white bg-indigo-600 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-500 rounded text-lg"
-                >
-                  Submit
-                </button>
-                <div className="flex flex-row space-x-2"></div>
+
+                {/* Real-time Code Validity */}
+                <div className="flex-1 text-center">
+                  <p className={isValidCode ? "text-green-400" : "text-red-400"}>
+                    {isValidCode ? "Valid Code" : "Invalid Code"}
+                  </p>
+                </div>
+
+                {/* Submit Button */}
+                <div className="flex-1">
+                  <button
+                    type="submit"
+                    className="flex mx-auto text-white bg-indigo-600 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-500 rounded text-lg"
+                  >
+                    Convert to Flowchart
+                  </button>
+                </div>
               </div>
+
+              {/* Loader and Error Display */}
               {loading && (
-                <div className="p-2 w-full text-center">
-                  <p className="text-gray-500">Submitting your code snippet...</p>
+                <div className="p-2 w-full text-center mt-4">
+                  <p className="text-gray-500">Converting your code...</p>
                 </div>
               )}
               {error && (
-                <div className="p-2 w-full text-center">
+                <div className="p-2 w-full text-center mt-4">
                   <p className="text-red-500">{error}</p>
                 </div>
               )}
             </form>
-            {flowchartCode && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                className="p-2 w-full mt-12"
-                style={{
-                  position: "relative",
-                  backgroundColor: "rgba(255, 255, 255, 0.1)",
-                  borderRadius: "10px",
-                  backdropFilter: "blur(4px)",
-                }}
-              >
-                <h2 className="text-2xl font-medium text-white mb-4">
-                  Generated Flowchart
-                </h2>
-                <div>
-                  <Flowchart chartCode={flowchartCode} options={opt} />
-                </div>
-              </motion.div>
-            )}
           </div>
+
+          {/* Flowchart Display */}
+          {flowchartCode && <FlowchartResult flowchartCode={flowchartCode} />}
         </div>
       </section>
     </>

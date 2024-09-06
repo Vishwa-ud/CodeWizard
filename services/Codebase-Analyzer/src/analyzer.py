@@ -4,6 +4,7 @@ import os
 def analyze_code(code):
     """
     Analyze the provided code and return the exported analysis reports.
+    deletes the generated HTML report after reading.
     
     Args:
     - code (str): The source code to analyze.

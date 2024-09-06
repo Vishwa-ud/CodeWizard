@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from utils import generate_flowchart_from_code, flowchart_from_code
-from analyzer import analyze_code  # Correct import for analyze_code
+from analyzer import analyze_code
 from flask_cors import CORS
 
 # Initialize the Flask application
@@ -10,13 +10,14 @@ CORS(app)
 # Disable strict slashes for URL routing
 app.url_map.strict_slashes = False
 
+# Health Checking Endpoint
 @app.route('/test-ag', methods=['GET'])
 def hello_world():
     """
     Simple health check endpoint to ensure the server is running.
     """
     return 'Hello from Service 1!'
-
+# Flowchart Generation Endpoint
 @app.route('/generate-flowchart-ag', methods=['POST'])
 def generate_flowchart():
     """
@@ -60,6 +61,7 @@ def generate_flowchart():
         print(f"Error generating flowchart: {str(e)}")
         return jsonify({"error": "An error occurred while generating the flowchart"}), 500
 
+# backup Flowchart Generation Endpoint
 @app.route('/generate-flowchart-ag2', methods=['POST'])
 def generate_flowchart_ag2():
     """
@@ -102,6 +104,7 @@ def generate_flowchart_ag2():
         print(f"Error generating flowchart: {str(e)}")
         return jsonify({"error": "An error occurred while generating the flowchart"}), 500
 
+# Code Analysis Endpoint
 @app.route('/analyze-code', methods=['POST'])
 def analyze_code_endpoint():
     """
@@ -115,7 +118,7 @@ def analyze_code_endpoint():
     Returns:
     {
         "num_functions": <number_of_functions>,
-        "num_lines": <number_of_lines>
+        "num_lines": <number_of_lines> 
     }
     """
     try:
@@ -135,6 +138,6 @@ def analyze_code_endpoint():
         print(f"Error analyzing code: {str(e)}")
         return jsonify({"error": "An error occurred while analyzing the code"}), 500
 
-# Entry point to start the Flask application
+# Entry point to start the Flask application 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3001)
