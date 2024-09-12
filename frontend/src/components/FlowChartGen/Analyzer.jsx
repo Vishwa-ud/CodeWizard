@@ -101,7 +101,7 @@ function Analyzer() {
                 </button>
               </div>
 
-              {/* Error Message */}
+              {/* Error Message here*/}
               {error && (
                 <motion.div className="bg-red-800 text-white mt-4 py-2 px-4 rounded-lg" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
                   {error}
