@@ -3,6 +3,7 @@ from utils import generate_flowchart_from_code, flowchart_from_code, detect_func
 from analyzer import analyze_code
 from flask_cors import CORS
 
+# TODO :REMOVE CORS 
 # Initialize the Flask application
 app = Flask(__name__)
 CORS(app)
@@ -149,25 +150,37 @@ def detect_functions():
     
     Returns:
     {
-        "functions": [<function1>, <function2>, ...]
+        "functions": [<function1>, <function2>, ...],
+        "imports": [<import1>, <import2>, ...],
+        "errors": [<error1>, <error2>, ...]
     }
     """
     try:
+        # Retrieve code from the JSON request
         code = request.json.get('code', '')
 
         if not code:
             return jsonify({"error": "No code provided"}), 400
 
-        functions = detect_functions_from_code(code)
+        # Detect functions, imports, and errors
+        result = detect_functions_from_code(code)
 
-        if not functions:
-            return jsonify({"error": "No functions found in the provided code."}), 500
+        # Send back the results
+        return jsonify(result), 200
 
-        return jsonify({"functions": functions})
+    except KeyError as e:
+        # Handle KeyError if 'code' is missing in the request JSON
+        return jsonify({"error": f"Missing key: {str(e)}"}), 400
+
+    except SyntaxError as se:
+        # Handle syntax errors in the code here
+        return jsonify({"error": f"SyntaxError: {str(se)}"}), 400
 
     except Exception as e:
+        # Common error handling here
         print(f"Error detecting functions: {str(e)}")
-        return jsonify({"error": "An error occurred while detecting functions"}), 500
-# Entry point to start the Flask application 
+        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
+    
+# Entry point to start the Flask application
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3001)
