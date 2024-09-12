@@ -8,7 +8,6 @@ import * as drei from "@react-three/drei";
 import * as fiber from "@react-three/fiber";
 import FlowchartResult from "./FlowchartResult"; // Import new component
 
-
 function CodeSubmission() {
   const [codeSnippet, setCodeSnippet] = useState("");
   const [language, setLanguage] = useState("");
@@ -167,53 +166,53 @@ function CodeSubmission() {
                 />
               </div>
               {/* Options Section Row */}
-          <div className="flex justify-center items-center lg:w-2/3 mx-auto mt-4 space-x-4">
-            {/* Indent Size Button */}
-            <motion.label
-              className="relative inline-flex items-center cursor-pointer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <input
-                type="checkbox"
-                value=""
-                className="sr-only peer"
-                checked={indentSize === 4}
-                onChange={() => setIndentSize(indentSize === 2 ? 4 : 2)}
-              />
-              <div className="peer rounded-br-2xl rounded-tl-2xl outline-none duration-100 after:duration-500 w-28 h-14 bg-indigo-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-500 after:content-['2'] after:absolute after:outline-none after:rounded-br-xl after:rounded-tl-xl after:h-12 after:w-12 after:bg-white after:top-1 after:left-1 after:flex after:justify-center after:items-center after:text-sky-800 after:font-bold peer-checked:after:translate-x-14 peer-checked:after:content-['4'] peer-checked:after:border-white"></div>
-            </motion.label>
+              <div className="flex justify-center items-center lg:w-2/3 mx-auto mt-4 space-x-4">
+                {/* Indent Size Button */}
+                <motion.label
+                  className="relative inline-flex items-center cursor-pointer"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <input
+                    type="checkbox"
+                    value=""
+                    className="sr-only peer"
+                    checked={indentSize === 4}
+                    onChange={() => setIndentSize(indentSize === 2 ? 4 : 2)}
+                  />
+                  <div className="peer rounded-br-2xl rounded-tl-2xl outline-none duration-100 after:duration-500 w-28 h-14 bg-indigo-600 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-500 after:content-['2'] after:absolute after:outline-none after:rounded-br-xl after:rounded-tl-xl after:h-12 after:w-12 after:bg-white after:top-1 after:left-1 after:flex after:justify-center after:items-center after:text-sky-800 after:font-bold peer-checked:after:translate-x-14 peer-checked:after:content-['4'] peer-checked:after:border-white"></div>
+                </motion.label>
 
-            {/* Quick Paste Example Button */}
-            <button
-              type="button"
-              className="bg-indigo-600 hover:bg-indigo-400 text-white py-2 px-4 rounded-lg focus:outline-none transition ease-in-out duration-300"
-              onClick={() =>
-                setCodeSnippet(
-                  `def example():\n  if True:\n    print("This is a quick-paste example!")\n  else:\n    print("Alternative path")`
-                )
-              }
-            >
-              Quick Paste Example
-            </button>
+                {/* Quick Paste Example Button */}
+                <button
+                  type="button"
+                  className="bg-indigo-600 hover:bg-indigo-400 text-white py-2 px-4 rounded-lg focus:outline-none transition ease-in-out duration-300"
+                  onClick={() =>
+                    setCodeSnippet(
+                      `def example():\n  if True:\n    print("This is a quick-paste example!")\n  else:\n    print("Alternative path")`
+                    )
+                  }
+                >
+                  Quick Paste Example
+                </button>
 
-            {/* Language Selection Dropdown */}
-            <motion.div
-              className="relative inline-block text-left"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <select
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-                className="bg-gray-800 text-white rounded-lg py-2 px-4 outline-none transition ease-in-out duration-300"
-              >
-                <option value="">Select Language</option>
-                <option value="python">Python</option>
-                <option value="js">JavaScript</option>
-              </select>
-            </motion.div>
-          </div>
+                {/* Language Selection Dropdown */}
+                <motion.div
+                  className="relative inline-block text-left"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  <select
+                    value={language}
+                    onChange={(e) => setLanguage(e.target.value)}
+                    className="bg-gray-800 text-white rounded-lg py-2 px-4 outline-none transition ease-in-out duration-300"
+                  >
+                    <option value="">Select Language</option>
+                    <option value="python">Python</option>
+                    <option value="js">JavaScript</option>
+                  </select>
+                </motion.div>
+              </div>
 
               {/* Error Message */}
               {error && (
@@ -241,10 +240,10 @@ function CodeSubmission() {
             </form>
           </div>
 
-          
-
           {/* Flowchart Result */}
-          {flowchartCode && <FlowchartResult code={flowchartCode} ref={resultRef} />}
+          {flowchartCode && (
+            <FlowchartResult flowchartCode={flowchartCode} ref={resultRef} />
+          )}
         </div>
       </section>
     </>

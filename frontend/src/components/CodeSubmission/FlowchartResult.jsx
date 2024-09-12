@@ -36,7 +36,10 @@ function FlowchartResult({ flowchartCode }) {
         "shape": "circle", // End node shape is a circle
       },
     },
+    "yes-text-color": "white", // Change yes-text color to white
+    "no-text-color": "white",  // Change no-text color to white
   };
+  
 
   return (
     <motion.div

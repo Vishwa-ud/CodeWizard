@@ -1,0 +1,34 @@
+<mxfile host="65bd71144e">
+    <diagram id="-WG0_jzAlg_UmS8r3pwj" name="Page-1">
+        <mxGraphModel dx="1102" dy="730" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="6" value="" style="edgeStyle=none;html=1;" parent="1" source="2" target="5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="&#10;&lt;div style=&quot;color: rgb(205, 214, 244); background-color: rgb(30, 30, 46); font-family: &amp;quot;Fira Code&amp;quot;, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-weight: normal; font-size: 14px; line-height: 19px;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #fab387;font-style: italic;&quot;&gt;@&lt;/span&gt;&lt;span style=&quot;color: #cdd6f4;font-style: italic;&quot;&gt;app&lt;/span&gt;&lt;span style=&quot;color: #9399b2;&quot;&gt;.&lt;/span&gt;&lt;span style=&quot;color: #89b4fa;font-style: italic;&quot;&gt;route&lt;/span&gt;&lt;span style=&quot;color: #9399b2;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #a6e3a1;&quot;&gt;'/test-ag'&lt;/span&gt;&lt;span style=&quot;color: #9399b2;&quot;&gt;,&lt;/span&gt;&lt;span style=&quot;color: #cdd6f4;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #eba0ac;font-style: italic;&quot;&gt;methods&lt;/span&gt;&lt;span style=&quot;color: #94e2d5;&quot;&gt;=&lt;/span&gt;&lt;span style=&quot;color: #9399b2;&quot;&gt;[&lt;/span&gt;&lt;span style=&quot;color: #a6e3a1;&quot;&gt;'GET'&lt;/span&gt;&lt;span style=&quot;color: #9399b2;&quot;&gt;])&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&#10;&#10;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="150" y="110" width="260" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="" style="edgeStyle=none;html=1;" parent="1" source="5" target="11" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="For testing server is working" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
+                    <mxGeometry x="560" y="95" width="220" height="105" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="Add Server Status logic to frontend" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;rounded=1;" parent="1" vertex="1">
+                    <mxGeometry x="910" y="101.25" width="180" height="92.5" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" style="edgeStyle=none;html=1;entryX=0.16;entryY=0.55;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="18" target="23">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="&#10;&lt;div style=&quot;color: rgb(205, 214, 244); background-color: rgb(30, 30, 46); font-family: &amp;quot;Fira Code&amp;quot;, Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-weight: normal; font-size: 14px; line-height: 19px;&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #fab387;font-style: italic;&quot;&gt;@&lt;/span&gt;&lt;span style=&quot;color: #cdd6f4;font-style: italic;&quot;&gt;app&lt;/span&gt;&lt;span style=&quot;color: #9399b2;&quot;&gt;.&lt;/span&gt;&lt;span style=&quot;color: #89b4fa;font-style: italic;&quot;&gt;route&lt;/span&gt;&lt;span style=&quot;color: #9399b2;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;color: #a6e3a1;&quot;&gt;'/generate-flowchart-ag'&lt;/span&gt;&lt;span style=&quot;color: #9399b2;&quot;&gt;,&lt;/span&gt;&lt;span style=&quot;color: #cdd6f4;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: #eba0ac;font-style: italic;&quot;&gt;methods&lt;/span&gt;&lt;span style=&quot;color: #94e2d5;&quot;&gt;=&lt;/span&gt;&lt;span style=&quot;color: #9399b2;&quot;&gt;[&lt;/span&gt;&lt;span style=&quot;color: #a6e3a1;&quot;&gt;'POST'&lt;/span&gt;&lt;span style=&quot;color: #9399b2;&quot;&gt;])&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #cba6f7;&quot;&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&#10;&#10;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="140" y="290" width="280" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="560" y="295" width="340" height="255" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

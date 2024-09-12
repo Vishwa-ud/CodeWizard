@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from utils import generate_flowchart_from_code, flowchart_from_code
+from utils import generate_flowchart_from_code, flowchart_from_code, detect_functions_from_code
 from analyzer import analyze_code
 from flask_cors import CORS
 
@@ -31,9 +31,7 @@ def generate_flowchart():
     
     Returns:
     {
-        "nodes": [<node1>, <node2>, ...],
-        "edges": [<edge1>, <edge2>, ...]
-    }
+        flowchartdata: <data for generating flowchart image>
     """
     try:
         code = request.json.get('code', '')
@@ -138,6 +136,38 @@ def analyze_code_endpoint():
         print(f"Error analyzing code: {str(e)}")
         return jsonify({"error": "An error occurred while analyzing the code"}), 500
 
+# function detection endpoint
+@app.route('/detect-functions', methods=['POST'])
+def detect_functions():
+    """
+    Endpoint to detect functions in the provided code.
+    
+    Expects JSON input with the following structure:
+    {
+        "code": "<source_code>"
+    }
+    
+    Returns:
+    {
+        "functions": [<function1>, <function2>, ...]
+    }
+    """
+    try:
+        code = request.json.get('code', '')
+
+        if not code:
+            return jsonify({"error": "No code provided"}), 400
+
+        functions = detect_functions_from_code(code)
+
+        if not functions:
+            return jsonify({"error": "No functions found in the provided code."}), 500
+
+        return jsonify({"functions": functions})
+
+    except Exception as e:
+        print(f"Error detecting functions: {str(e)}")
+        return jsonify({"error": "An error occurred while detecting functions"}), 500
 # Entry point to start the Flask application 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3001)
