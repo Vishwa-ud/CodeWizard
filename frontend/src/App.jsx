@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 //Home
@@ -11,15 +11,14 @@ import Center from "./components/Taskmanagement/Center";
 import boardsSlice from "./redux/boardsSlice";
 import EmptyBoard from "./components/Taskmanagement/EmptyBoard";
 
-//nadu
-import BasicUI from "./components/FlowChartGen/BasicUI";
+//nadun
 import Analyzer from "./components/FlowChartGen/Analyzer";
 
 //vinu
 import CodeAnalysisPage from "./components/Vinuki/CodeAnalysisPage";
 
 //common
-import CodeSubmission from "./components/CodeSubmission/CodeSubmission"
+import CodeSubmission from "./components/CodeSubmission/CodeSubmission";
 
 function App() {
   const [boardModalOpen, setBoardModalOpen] = useState(false);
@@ -33,13 +32,6 @@ function App() {
     <Router>
       <div>
         <Routes>
-          {/* main generation route */}
-          <Route path="/generate" element={
-            <>
-              <CodeSubmission />
-            </>
-            } />
-
           {/* Home */}
           <Route path="/" element={<Home />} />
 
@@ -70,16 +62,7 @@ function App() {
             }
           />
 
-
           {/* Nadun */}
-          <Route
-            path="/gen"
-            element={
-              <>
-                <BasicUI />
-              </>
-            }
-          />
           <Route
             path="/gen2"
             element={
@@ -88,18 +71,24 @@ function App() {
               </>
             }
           />
-          
-            
+          <Route
+            path="/generate"
+            element={
+              <>
+                <CodeSubmission />
+              </>
+            }
+          />
+
           {/* Vinuki */}
-          <Route 
-            path="/code-analysis" 
+          <Route
+            path="/code-analysis"
             element={
               <>
                 <CodeAnalysisPage />
               </>
-            } 
+            }
           />
-
 
           {/* Sathira */}
 
