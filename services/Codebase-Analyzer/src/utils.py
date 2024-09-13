@@ -172,6 +172,12 @@ def flowchart_from_code(code,params):
         "flowchart": fc.flowchart(),
     }
 
+def flowchart_from_snippet(code,function_name):
+    fc = Flowchart.from_code(code, field=function_name, inner=False)
+    return {
+        "flowchart": fc.flowchart(),
+    }
+
 # major seperation: code validation and seperation things
 def extract_function_code(code, func_node):
     """

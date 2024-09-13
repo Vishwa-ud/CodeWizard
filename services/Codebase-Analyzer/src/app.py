@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from utils import generate_flowchart_from_code, flowchart_from_code, detect_functions_from_code
+from utils import generate_flowchart_from_code, flowchart_from_code, detect_functions_from_code, flowchart_from_snippet
 from analyzer import analyze_code
 from flask_cors import CORS
 
@@ -18,50 +18,51 @@ def hello_world():
     Simple health check endpoint to ensure the server is running.
     """
     return 'Hello from Service 1!'
+
 # Flowchart Generation Endpoint
+# @app.route('/generate-flowchart-ag', methods=['POST'])
+# def generate_flowchart():
+#     """
+#     Endpoint to generate a flowchart from provided code.
+    
+#     Expects JSON input with the following structure:
+#     {
+#         "code": "<source_code>",
+#         "language": "<programming_language>"
+#     }
+    
+#     Returns:
+#     {
+#         flowchartdata: <data for generating flowchart image>
+#     """
+#     try:
+#         code = request.json.get('code', '')
+#         language = request.json.get('language', '').lower()
+#         params = request.json.get('params', {})
+
+#         if not code:
+#             return jsonify({"error": "No code provided"}), 400
+        
+#         if not language:
+#             return jsonify({"error": "No programming language provided"}), 400
+        
+#         valid_languages = ['python', 'java', 'javascript']
+#         if language not in valid_languages:
+#             return jsonify({"error": f"Unsupported language '{language}'. Supported languages: {', '.join(valid_languages)}."}), 400
+
+#         flowchart_data = flowchart_from_code(code,params)
+
+#         if not flowchart_data:
+#             return jsonify({"error": "No data To Show."}), 500
+
+#         return jsonify(flowchart_data)
+
+    # except Exception as e:
+    #     print(f"Error generating flowchart: {str(e)}")
+    #     return jsonify({"error": "An error occurred while generating the flowchart"}), 500
+
+# enchanced Flowchart Generation Endpoint
 @app.route('/generate-flowchart-ag', methods=['POST'])
-def generate_flowchart():
-    """
-    Endpoint to generate a flowchart from provided code.
-    
-    Expects JSON input with the following structure:
-    {
-        "code": "<source_code>",
-        "language": "<programming_language>"
-    }
-    
-    Returns:
-    {
-        flowchartdata: <data for generating flowchart image>
-    """
-    try:
-        code = request.json.get('code', '')
-        language = request.json.get('language', '').lower()
-        params = request.json.get('params', {})
-
-        if not code:
-            return jsonify({"error": "No code provided"}), 400
-        
-        if not language:
-            return jsonify({"error": "No programming language provided"}), 400
-        
-        valid_languages = ['python', 'java', 'javascript']
-        if language not in valid_languages:
-            return jsonify({"error": f"Unsupported language '{language}'. Supported languages: {', '.join(valid_languages)}."}), 400
-
-        flowchart_data = flowchart_from_code(code,params)
-
-        if not flowchart_data:
-            return jsonify({"error": "No data To Show."}), 500
-
-        return jsonify(flowchart_data)
-
-    except Exception as e:
-        print(f"Error generating flowchart: {str(e)}")
-        return jsonify({"error": "An error occurred while generating the flowchart"}), 500
-
-# backup Flowchart Generation Endpoint
-@app.route('/generate-flowchart-ag2', methods=['POST'])
 def generate_flowchart_ag2():
     """
     Endpoint to generate a flowchart from provided code.
@@ -69,39 +70,49 @@ def generate_flowchart_ag2():
     Expects JSON input with the following structure:
     {
         "code": "<source_code>",
-        "language": "<programming_language>"
+        "language": "<programming_language>",
+        "function": "<function_name>" (optional)
     }
     
     Returns:
     {
-        "nodes": [<node1>, <node2>, ...],
-        "edges": [<edge1>, <edge2>, ...]
+        flowchartdata: <data for generating flowchart image>
     }
     """
     try:
         code = request.json.get('code', '')
         language = request.json.get('language', '').lower()
+        function = request.json.get('function', '')
 
+        # Validate code input
         if not code:
             return jsonify({"error": "No code provided"}), 400
         
+        # Validate language input
         if not language:
             return jsonify({"error": "No programming language provided"}), 400
         
-        valid_languages = ['python', 'java', 'javascript']
+        valid_languages = ['python']  # Only support Python for now
         if language not in valid_languages:
             return jsonify({"error": f"Unsupported language '{language}'. Supported languages: {', '.join(valid_languages)}."}), 400
 
-        flowchart_data = generate_flowchart_from_code(code, language)
+        # Generate flowchart data
+        flowchart_data = flowchart_from_snippet(code, function)
 
-        if not flowchart_data or 'nodes' not in flowchart_data or 'edges' not in flowchart_data:
-            return jsonify({"error": "Failed to generate flowchart data."}), 500
+        # Handle case when no flowchart data is returned
+        if not flowchart_data:
+            if function and function not in code:
+                return jsonify({"error": f"Function '{function}' not found in provided code."}), 400
+            return jsonify({"error": "No data to parse. Please check the provided code and fields."}), 400
 
+        # Return the flowchart data if successful
         return jsonify(flowchart_data)
 
     except Exception as e:
         print(f"Error generating flowchart: {str(e)}")
         return jsonify({"error": "An error occurred while generating the flowchart"}), 500
+
+    
 
 # Code Analysis Endpoint
 @app.route('/analyze-code', methods=['POST'])
