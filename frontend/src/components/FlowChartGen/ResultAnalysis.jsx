@@ -1,8 +1,59 @@
-// ResultAnalysis.jsx
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
+import axios from 'axios'; // Add Axios for API requests
+import FlowchartResult from '../CodeSubmission/FlowchartResult';
 
 function ResultAnalysis({ analysisResult, onGenerateFlowchart }) {
+  const [loadingStates, setLoadingStates] = useState({});
+  const [flowchartData, setFlowchartData] = useState({}); // To store generated flowchart for each function
+  const [error, setError] = useState('');
+
+  const handleFlowchartClick = async (functionName) => {
+    console.log('Generating flowchart for:', functionName);
+    console.log('Code:', analysisResult.functions[functionName]);
+    // Set the loading state for the selected function
+    setLoadingStates((prevState) => ({
+      ...prevState,
+      [functionName]: true,
+    }));
+
+    try {
+      // Make an API request to generate the flowchart for the specific function
+      const response = await axios.post('http://127.0.0.1:5000/generate-flowchart-ag', {
+        code: analysisResult.functions[functionName], // Send the code of the selected function
+        language: 'python', // Assuming the language is JavaScript; change accordingly
+      });
+
+      const data = response.data;
+
+      if (!data.flowchart) {
+        throw new Error('Invalid response: No flowchart found.');
+      }
+
+      // Store the flowchart data for the function
+      setFlowchartData((prevState) => ({
+        ...prevState,
+        [functionName]: data.flowchart,
+      }));
+
+      // Trigger any additional action with flowchart data if needed
+      onGenerateFlowchart(functionName);
+
+    } catch (err) {
+      setError(
+        err.response?.data?.error ||
+        'An unexpected error occurred. Please try again later.'
+      );
+    } finally {
+      // Reset the loading state for the selected function
+      setLoadingStates((prevState) => ({
+        ...prevState,
+        [functionName]: false,
+      }));
+    }
+  };
+
   return (
     <div className="mt-12">
       <h2 className="text-2xl font-medium text-white mb-4 text-center">Analysis Results</h2>
@@ -17,7 +68,9 @@ function ResultAnalysis({ analysisResult, onGenerateFlowchart }) {
             transition={{ duration: 0.5 }}
           >
             <h3 className="text-lg font-semibold text-white mb-2">Imports</h3>
-            <pre className="whitespace-pre-wrap text-white overflow-auto">{analysisResult.imports.join(', ')}</pre>
+            <pre className="whitespace-pre-wrap text-white overflow-auto">
+              {analysisResult.imports.join(', ')}
+            </pre>
           </motion.div>
         )}
 
@@ -31,32 +84,71 @@ function ResultAnalysis({ analysisResult, onGenerateFlowchart }) {
             transition={{ duration: 0.5 }}
           >
             <h3 className="text-lg font-semibold text-white mb-2">{name}</h3>
-            <div className="flex">
-              <pre className="whitespace-pre-wrap text-white overflow-auto flex-grow">
+            <div className="flex justify-between items-center">
+              <pre className="whitespace-pre-wrap text-white overflow-auto">
                 {analysisResult.functions[name]}
               </pre>
+
+              {/* Flowchart Generation Button */}
               <button
-                className="bg-indigo-600 hover:bg-indigo-400 text-white py-2 px-4 mt-4 rounded absolute right-6 bottom-6"
-                onClick={() => onGenerateFlowchart(name)}
+                onClick={() => handleFlowchartClick(name)}
+                className="bg-indigo-600 hover:bg-indigo-400 text-white py-2 px-4 rounded-lg focus:outline-none transition ease-in-out duration-300 ml-4"
               >
-                Generate Flowchart
+                {loadingStates[name] ? (
+                  <div className="max-w-sm p-4 border border-gray-200 rounded shadow animate-pulse">
+                    <div className="flex items-center justify-center h-8 w-8 bg-gray-300 rounded">
+                      <svg
+                        viewBox="0 0 16 20"
+                        fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                        className="w-6 h-6 text-gray-200"
+                      >
+                        <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z" />
+                        <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
+                      </svg>
+                    </div>
+                  </div>
+                ) : (
+                  'Generate Flowchart'
+                )}
               </button>
             </div>
+
+            {/* Display the generated flowchart if available */}
+            {flowchartData[name] && (
+              <div className="mt-4 bg-opacity-20 backdrop-blur-xl p-4 rounded-lg">
+                <h4 className="text-white">Generated Flowchart:</h4>
+               <FlowchartResult flowchartCode={flowchartData[name]} />
+              </div>
+            )}
           </motion.div>
         ))}
 
         {/* Errors */}
         {analysisResult.errors.length > 0 && (
           <motion.div
-            className="bg-red-800 bg-opacity-20 p-6 rounded-lg backdrop-blur-md shadow-lg border border-red-500"
+            className="bg-red-600 bg-opacity-20 p-6 rounded-lg backdrop-blur-md shadow-lg border border-red-500"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
             <h3 className="text-lg font-semibold text-white mb-2">Errors</h3>
-            {analysisResult.errors.map((err, index) => (
-              <pre key={index} className="whitespace-pre-wrap text-white overflow-auto">{err}</pre>
-            ))}
+            <pre className="whitespace-pre-wrap text-white overflow-auto">
+              {analysisResult.errors.join(', ')}
+            </pre>
+          </motion.div>
+        )}
+
+        {/* Error message */}
+        {error && (
+          <motion.div
+            className="bg-red-800 text-white mt-4 py-2 px-4 rounded-lg"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            {error}
           </motion.div>
         )}
       </motion.div>
@@ -65,7 +157,11 @@ function ResultAnalysis({ analysisResult, onGenerateFlowchart }) {
 }
 
 ResultAnalysis.propTypes = {
-  analysisResult: PropTypes.object.isRequired,
+  analysisResult: PropTypes.shape({
+    imports: PropTypes.arrayOf(PropTypes.string),
+    functions: PropTypes.objectOf(PropTypes.string),
+    errors: PropTypes.arrayOf(PropTypes.string),
+  }).isRequired,
   onGenerateFlowchart: PropTypes.func.isRequired,
 };
 

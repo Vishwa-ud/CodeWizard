@@ -166,7 +166,8 @@ def generate_flowchart_from_code(code, language):
     }
 
 
-def flowchart_from_code(code,params):
+def flowchart_from_code(code):
+    # TODO: Problem with function name logic, add a function name detection logic
     fc = Flowchart.from_code(code, field='example', inner=False)
     return {
         "flowchart": fc.flowchart(),
