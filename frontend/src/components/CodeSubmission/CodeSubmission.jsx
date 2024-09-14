@@ -45,6 +45,18 @@ function CodeSubmission() {
     }
   }, [codeSnippet, language]);
 
+  // Function to extract function name based on language
+  const extractFunctionName = (code, lang) => {
+    if (lang === "python") {
+      const match = code.match(/def\s+([a-zA-Z_]\w*)\s*\(/);
+      return match ? match[1] : null;
+    } else if (lang === "js") {
+      const match = code.match(/function\s+([a-zA-Z_]\w*)\s*\(/) || code.match(/const\s+([a-zA-Z_]\w*)\s*=\s*\(/);
+      return match ? match[1] : null;
+    }
+    return null;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -55,16 +67,22 @@ function CodeSubmission() {
       return;
     }
 
-    
+    // Extract the function name
+    const functionName = extractFunctionName(codeSnippet, language);
+    if (!functionName) {
+      setError("Could not detect a valid logic in your code(No function found). Please check your code and try again.");
+      return;
+    }
 
     setLoading(true);
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:5000/generate-flowchart-ag",
+        "http://127.0.0.1:5000/generate-flowchart-ag2",
         {
           code: codeSnippet,
           language: language,
+          function: functionName,  // Automatically send detected function name
         }
       );
 
@@ -113,7 +131,7 @@ function CodeSubmission() {
   return (
     <>
       <Header p={true} />
-      <ShaderCanvas urlString="https://www.shadergradient.co/customize?animate=on&axesHelper=off&bgColor1=%23000000&bgColor2=%23000000&brightness=0.7&cAzimuthAngle=180&cDistance=2.8&cPolarAngle=80&cameraZoom=9.1&color1=%23606080&color2=%238d7dca&color3=%23212121&destination=onCanvas&embedMode=off&envPreset=city&format=gif&fov=45&frameRate=10&gizmoHelper=hide&grain=on&lightType=3d&pixelDensity=1&positionX=0&positionY=0&positionZ=0&range=enabled&rangeEnd=40&rangeStart=0&reflection=0.15&rotationX=50&rotationY=0&rotationZ=-60&shader=defaults&type=waterPlane&uAmplitude=0&uDensity=1.5&uFrequency=0&uSpeed=0.3&uStrength=1.5&uTime=8&wireframe=false" />
+      <ShaderCanvas/>
       <section className="text-gray-400 bg-transparent body-font relative h-screen">
         <div className="container px-5 py-8 mx-auto flex flex-col h-full">
           <div className="flex flex-col text-center w-full mb-6">
