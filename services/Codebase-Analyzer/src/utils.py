@@ -166,14 +166,30 @@ def generate_flowchart_from_code(code, language):
     }
 
 
+def remove_unexpected_indent(code):
+    # Split the code into lines
+    lines = code.split('\n')
+    
+    # Find the minimum indentation level of non-empty lines
+    min_indent = min((len(line) - len(line.lstrip())) for line in lines if line.strip())
+
+    # Remove this level of indentation from all lines
+    adjusted_lines = [line[min_indent:] if len(line.strip()) > 0 else line for line in lines]
+
+    # Join the lines back into a single string
+    return '\n'.join(adjusted_lines)
+
 def flowchart_from_code(code):
-    # TODO: Problem with function name logic, add a function name detection logic
+    # Remove unexpected indentations from start
+    code = remove_unexpected_indent(code)
+
     fc = Flowchart.from_code(code, field='example', inner=False)
     return {
         "flowchart": fc.flowchart(),
     }
 
 def flowchart_from_snippet(code,function_name):
+    code = remove_unexpected_indent(code)
     fc = Flowchart.from_code(code, field=function_name, inner=False)
     return {
         "flowchart": fc.flowchart(),
