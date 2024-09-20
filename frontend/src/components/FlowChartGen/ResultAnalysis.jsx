@@ -1,17 +1,32 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import PropTypes from 'prop-types';
-import axios from 'axios'; // Add Axios for API requests
-import FlowchartResult from '../CodeSubmission/FlowchartResult';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import PropTypes from "prop-types";
+import axios from "axios";
+import FlowchartResult from "../CodeSubmission/FlowchartResult";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 function ResultAnalysis({ analysisResult, onGenerateFlowchart }) {
   const [loadingStates, setLoadingStates] = useState({});
   const [flowchartData, setFlowchartData] = useState({}); // To store generated flowchart for each function
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
-  const handleFlowchartClick = async (functionName) => {
-    console.log('Generating flowchart for:', functionName);
-    console.log('Code:', analysisResult.functions[functionName]);
+  // Regular expression to extract Python function names
+  const extractFunctionName = (code) => {
+    const functionRegex = /def\s+([a-zA-Z_]\w*)\s*\(/g;
+    const functionNames = [];
+    let match;
+
+    while ((match = functionRegex.exec(code)) !== null) {
+      functionNames.push(match[1]);
+    }
+
+    return functionNames;
+  };
+
+  const handleFlowchartClick = async (functionName, code) => {
+    console.log("Generating flowchart for:", functionName);
+    console.log("Code:", code);
+
     // Set the loading state for the selected function
     setLoadingStates((prevState) => ({
       ...prevState,
@@ -20,15 +35,19 @@ function ResultAnalysis({ analysisResult, onGenerateFlowchart }) {
 
     try {
       // Make an API request to generate the flowchart for the specific function
-      const response = await axios.post('http://127.0.0.1:5000/generate-flowchart-ag', {
-        code: analysisResult.functions[functionName], // Send the code of the selected function
-        language: 'python', // Assuming the language is JavaScript; change accordingly
-      });
+      const response = await axios.post(
+        "http://127.0.0.1:5000/generate-flowchart-ag2",
+        {
+          code: code, // Send the code of the selected function
+          language: "python", // Assuming Python for now
+          function: extractFunctionName(code)[0], // Send the detected function name
+        }
+      );
 
       const data = response.data;
 
       if (!data.flowchart) {
-        throw new Error('Invalid response: No flowchart found.');
+        throw new Error("Invalid response: No flowchart found.");
       }
 
       // Store the flowchart data for the function
@@ -39,11 +58,10 @@ function ResultAnalysis({ analysisResult, onGenerateFlowchart }) {
 
       // Trigger any additional action with flowchart data if needed
       onGenerateFlowchart(functionName);
-
     } catch (err) {
       setError(
         err.response?.data?.error ||
-        'An unexpected error occurred. Please try again later.'
+          "An unexpected error occurred. Please try again later."
       );
     } finally {
       // Reset the loading state for the selected function
@@ -56,7 +74,9 @@ function ResultAnalysis({ analysisResult, onGenerateFlowchart }) {
 
   return (
     <div className="mt-12">
-      <h2 className="text-2xl font-medium text-white mb-4 text-center">Analysis Results</h2>
+      <h2 className="text-2xl font-medium text-white mb-4 text-center">
+        Analysis Results
+      </h2>
 
       <motion.div className="grid grid-cols-1 gap-6">
         {/* Imports */}
@@ -69,7 +89,7 @@ function ResultAnalysis({ analysisResult, onGenerateFlowchart }) {
           >
             <h3 className="text-lg font-semibold text-white mb-2">Imports</h3>
             <pre className="whitespace-pre-wrap text-white overflow-auto">
-              {analysisResult.imports.join(', ')}
+              {analysisResult.imports.join(", ")}
             </pre>
           </motion.div>
         )}
@@ -91,7 +111,9 @@ function ResultAnalysis({ analysisResult, onGenerateFlowchart }) {
 
               {/* Flowchart Generation Button */}
               <button
-                onClick={() => handleFlowchartClick(name)}
+                onClick={() =>
+                  handleFlowchartClick(name, analysisResult.functions[name])
+                }
                 className="bg-indigo-600 hover:bg-indigo-400 text-white py-2 px-4 rounded-lg focus:outline-none transition ease-in-out duration-300 ml-4"
               >
                 {loadingStates[name] ? (
@@ -110,7 +132,7 @@ function ResultAnalysis({ analysisResult, onGenerateFlowchart }) {
                     </div>
                   </div>
                 ) : (
-                  'Generate Flowchart'
+                  "Generate Flowchart"
                 )}
               </button>
             </div>
@@ -119,7 +141,21 @@ function ResultAnalysis({ analysisResult, onGenerateFlowchart }) {
             {flowchartData[name] && (
               <div className="mt-4 bg-opacity-20 backdrop-blur-xl p-4 rounded-lg">
                 <h4 className="text-white">Generated Flowchart:</h4>
-               <FlowchartResult flowchartCode={flowchartData[name]} />
+                <TransformWrapper
+                  initialScale={1} // Initial zoom level
+                  minScale={0.5} // Minimum zoom level
+                  maxScale={4} // Maximum zoom level
+                  limitToBounds={false} // Allow panning outside boundaries
+                  centerOnInit={true} // Center the content when loaded
+                  wheel={{ step: 0.1 }} // Zoom sensitivity when using mouse wheel
+                  doubleClick={{ disabled: false, step: 1 }} // Allow zooming with double-click
+                  pinch={{ disabled: false, step: 5 }} // Allow pinch zoom on touch devices
+                  panning={{ velocityDisabled: true }} // Disables panning momentum after mouse release
+                >
+                  <TransformComponent>
+                    <FlowchartResult flowchartCode={flowchartData[name]} />
+                  </TransformComponent>
+                </TransformWrapper>
               </div>
             )}
           </motion.div>
@@ -135,7 +171,7 @@ function ResultAnalysis({ analysisResult, onGenerateFlowchart }) {
           >
             <h3 className="text-lg font-semibold text-white mb-2">Errors</h3>
             <pre className="whitespace-pre-wrap text-white overflow-auto">
-              {analysisResult.errors.join(', ')}
+              {analysisResult.errors.join(", ")}
             </pre>
           </motion.div>
         )}
