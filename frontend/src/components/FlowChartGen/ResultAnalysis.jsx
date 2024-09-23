@@ -34,12 +34,11 @@ function ResultAnalysis({ analysisResult, onGenerateFlowchart }) {
     }));
 
     try {
-      // Make an API request to generate the flowchart for the specific function
       const response = await axios.post(
         "http://127.0.0.1:5000/generate-flowchart-ag2",
         {
-          code: code, // Send the code of the selected function
-          language: "python", // Assuming Python for now
+          code: code, 
+          language: "python", // Assuming Python for now expandable
           function: extractFunctionName(code)[0], // Send the detected function name
         }
       );
@@ -56,7 +55,7 @@ function ResultAnalysis({ analysisResult, onGenerateFlowchart }) {
         [functionName]: data.flowchart,
       }));
 
-      // Trigger any additional action with flowchart data if needed
+      // Trigger any additional action with flowchart data if needed 
       onGenerateFlowchart(functionName);
     } catch (err) {
       setError(

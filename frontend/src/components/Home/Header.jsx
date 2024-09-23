@@ -1,5 +1,5 @@
 import Wizard from "../../assets/wizard.png";
-import PropTypes from "prop-types"; // Corrected import
+import PropTypes from "prop-types";
 
 const Header = ({ p }) => {
   return (
@@ -37,7 +37,7 @@ const Header = ({ p }) => {
 };
 
 Header.propTypes = {
-  p: PropTypes.bool, // Corrected PropTypes import and usage
+  p: PropTypes.bool, 
 };
 
 export default Header;
