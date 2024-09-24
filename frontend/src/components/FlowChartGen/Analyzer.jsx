@@ -40,7 +40,7 @@ function Analyzer() {
         } else {
           setError('Invalid analysis data received from the server.');
         }
-      }, 2000); // Simulating 2-second loading
+      }, 1500); // Simulating 1.5-second loading 
     } catch (err) {
       setLoading(false);
       setError(err.message || 'An unexpected error occurred.');

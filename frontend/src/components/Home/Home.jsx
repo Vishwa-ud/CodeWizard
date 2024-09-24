@@ -9,7 +9,7 @@ import Wiz from "../../assets/wiz.png";
 
 const Home = () => {
   const { scrollY } = useScroll();
-  const scale = useTransform(scrollY, [0, 500], [1, 3]); // Adjust the scale range if needed
+  const scale = useTransform(scrollY, [0, 500], [1, 3]);
 
   // Animation variants for elements
   const headerVariants = {

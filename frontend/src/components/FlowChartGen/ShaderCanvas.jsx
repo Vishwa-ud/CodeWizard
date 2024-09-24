@@ -1,4 +1,3 @@
-// ShaderCanvas.jsx
 import PropTypes from 'prop-types';
 import { ShaderGradientCanvas, ShaderGradient } from 'shadergradient';
 import * as reactSpring from '@react-spring/three';

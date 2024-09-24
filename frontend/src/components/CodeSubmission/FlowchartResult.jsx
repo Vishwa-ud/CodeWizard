@@ -46,9 +46,9 @@ function FlowchartResult({ flowchartCode }) {
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
-      className="p-2 w-full mt-8 flex justify-center" // Flexbox centering
+      className="p-2 w-full mt-8 flex justify-center" 
     >
-      <div className="max-w-4xl mx-auto"> {/* Limit the width and center the flowchart */}
+      <div className="max-w-4xl mx-auto">
         <h2 className="text-2xl font-medium text-white mb-4 text-center">
           Generated Flowchart
         </h2>
