@@ -19,6 +19,7 @@ import CodeAnalysisPage from "./components/Vinuki/CodeAnalysisPage";
 
 //common
 import CodeSubmission from "./components/CodeSubmission/CodeSubmission";
+import CheckSyntaxError from "./components/Sathira/CheckSyntaxError";
 
 function App() {
   const [boardModalOpen, setBoardModalOpen] = useState(false);
@@ -91,6 +92,14 @@ function App() {
           />
 
           {/* Sathira */}
+          <Route
+            path="/syntax-error"
+            element={
+              <>
+                <CheckSyntaxError />
+              </>
+            }
+          />
 
           {/* disable other routes */}
           <Route path="*" element={<Home />} />
