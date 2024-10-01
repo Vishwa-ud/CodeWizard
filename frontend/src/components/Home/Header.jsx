@@ -26,6 +26,11 @@ const Header = ({ p }) => {
             window.location.href = "/generate";
           }}
           >FlowChart Generator</a>
+                    <a className="mr-5 text-gray-200 hover:text-blue-600 cursor-pointer"
+          onClick={() => {
+            window.location.href = "/syntax-error";
+          }}
+          >Check Syntax</a>
           <a className="mr-5 text-gray-200 hover:text-blue-600 cursor-pointer">Contact</a>
         </nav>
         <button className="inline-flex items-center text-white bg-purple-500 border-0 py-1 px-3 focus:outline-none hover:bg-purple-600 rounded text-base mt-4 md:mt-0">
