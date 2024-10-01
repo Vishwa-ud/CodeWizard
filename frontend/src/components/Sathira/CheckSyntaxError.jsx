@@ -12,11 +12,13 @@ const CheckSyntaxError = () => {
   useEffect(() => {
     // Initialize Pyodide for Python syntax checking
     const loadPyodide = async () => {
-      const pyodideInstance = await window.loadPyodide();
-      setPyodide(pyodideInstance);
+      if (language === 'python') {
+        const pyodideInstance = await window.loadPyodide();
+        setPyodide(pyodideInstance);
+      }
     };
     loadPyodide();
-  }, []);
+  }, [language]);
 
   const handleEditorChange = (value) => {
     setCode(value);
@@ -25,39 +27,53 @@ const CheckSyntaxError = () => {
 
   const checkSyntax = async (code, language) => {
     try {
+      let errors = [];
       if (language === 'javascript' || language === 'typescript') {
         // JavaScript/TypeScript syntax checking
-        const errors = [];
         const parserOptions = {
           sourceType: 'module',
-          plugins: {
-            jsx: true,
-            typescript: language === 'typescript',
-          },
+          plugins: [
+            'jsx',
+            language === 'typescript' && 'typescript',
+          ].filter(Boolean),
         };
-
+  
         try {
+          // Attempt to parse the code
           BabelParser.parse(code, parserOptions);
-          setErrors([]);
+          setErrors([]); // No syntax errors
         } catch (error) {
-          const { loc, message } = error;
-          const line = loc ? loc.line : 0;
-          const column = loc ? loc.column : 0;
-          errors.push({
-            line,
-            column,
-            message: `Syntax Error: ${message} (Line ${line}, Column ${column})`,
-            suggestion: getFixSuggestion(message),
-          });
+          // Capture detailed error information
+          if (error.loc) {
+            const { line, column } = error.loc;
+            const message = error.message.replace(/\([0-9]+:[0-9]+\)$/, ''); // Remove location from the message
+            errors.push({
+              line,
+              column,
+              message: `Syntax Error: ${message.trim()} (Line ${line}, Column ${column})`,
+              suggestion: getFixSuggestion(message),
+            });
+          } else {
+            // Handle cases where loc is not available
+            errors.push({
+              line: 0,
+              column: 0,
+              message: `Unknown Syntax Error: ${error.message}`,
+              suggestion: 'Check the syntax again.',
+            });
+          }
           setErrors(errors);
         }
       } else if (language === 'python' && pyodide) {
         // Python syntax checking
         try {
           pyodide.runPython(code);
-          setErrors([]);
+          setErrors([]); // No syntax errors
         } catch (error) {
-          setErrors([{ line: 0, message: error.message }]);
+          const message = error.message.includes(':') ? error.message.split(':').slice(1).join(':') : error.message;
+          const line = error.traceback ? error.traceback[0].split(':')[1] : 0; // Get the line number from the traceback if available
+          errors.push({ line, message: `Python Error: ${message}` });
+          setErrors(errors);
         }
       } else if (language === 'java') {
         // Java syntax checking using Jdoodle API
@@ -65,20 +81,20 @@ const CheckSyntaxError = () => {
           script: code,
           language: 'java',
           versionIndex: '0',
-          clientId: '287a96a9eff94f013d8dc693449b3a55',
-          clientSecret: '930b78a6ae767e5ed1b8a13fc8430388d7df86620e221b10c323e02d30233b1'
+          clientId: 'your-client-id',
+          clientSecret: 'your-client-secret'
         });
-        if (response.data.errors) {
-          setErrors([{ line: 0, message: response.data.errors }]);
+        if (response.data.output.includes('error')) {
+          setErrors([{ line: 0, message: `Java Error: ${response.data.output}` }]);
         } else {
-          setErrors([]);
+          setErrors([]); // No syntax errors
         }
       }
     } catch (error) {
-      setErrors([{ line: 0, message: error.message }]);
+      setErrors([{ line: 0, message: `Error during syntax checking: ${error.message}` }]);
     }
   };
-
+  
   const getFixSuggestion = (message) => {
     // Return basic suggestions based on common error messages
     if (message.includes('Unexpected token')) {
