@@ -20,6 +20,8 @@ import CodeAnalysisPage from "./components/Vinuki/CodeAnalysisPage";
 //common
 import CodeSubmission from "./components/CodeSubmission/CodeSubmission";
 import CheckSyntaxError from "./components/Sathira/CheckSyntaxError";
+import Login from "./components/Sathira/Auth/Login";
+import Register from "./components/Sathira/Auth/Register";
 
 function App() {
   const [boardModalOpen, setBoardModalOpen] = useState(false);
@@ -97,6 +99,22 @@ function App() {
             element={
               <>
                 <CheckSyntaxError />
+              </>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <>
+                <Login />
+              </>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <>
+                <Register />
               </>
             }
           />
