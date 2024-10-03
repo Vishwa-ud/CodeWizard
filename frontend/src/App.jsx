@@ -24,6 +24,7 @@ import Login from "./components/Sathira/Auth/Login";
 import Register from "./components/Sathira/Auth/Register";
 import ProblemHome from "./components/Sathira/ProblemHome";
 import Profile from "./components/Sathira/Profile";
+import AddProblem from "./components/Sathira/AddProblem";
 
 function App() {
   const [boardModalOpen, setBoardModalOpen] = useState(false);
@@ -133,6 +134,14 @@ function App() {
             element={
               <>
                 <Profile />
+              </>
+            }
+          />
+          <Route
+            path="/add-problem"
+            element={
+              <>
+                <AddProblem />
               </>
             }
           />
