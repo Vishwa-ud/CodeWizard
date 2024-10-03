@@ -3,7 +3,7 @@ import axios from 'axios';
 import parse from 'html-react-parser';
 import { useNavigate } from 'react-router-dom';
 
-const Home = () => {
+const ProblemHome = () => {
   const [problems, setProblems] = useState([]);
   const [filteredProblems, setFilteredProblems] = useState([]);
   const [comments, setComments] = useState({});
@@ -245,4 +245,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default ProblemHome;
