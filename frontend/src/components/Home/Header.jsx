@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import Wizard from "../../assets/wizard.png";
 import PropTypes from "prop-types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import FontAwesomeIcon
+import { faUser } from "@fortawesome/free-solid-svg-icons"; // Import the user icon
 
 const Header = ({ p }) => {
   const navigate = useNavigate(); // Create a navigate function
@@ -21,7 +23,7 @@ const Header = ({ p }) => {
   const handleLogout = () => {
     localStorage.removeItem("token"); // Remove token from localStorage
     setIsLoggedIn(false); // Update state to reflect logged-out status
-    navigate("/home"); // Optionally redirect to login page
+    navigate("/home"); // Optionally redirect to home page
   };
 
   // Function to handle Problem navigation
@@ -106,12 +108,23 @@ const Header = ({ p }) => {
               </button>
             </>
           ) : (
-            <button
-              className="inline-flex items-center text-white bg-red-500 border-0 py-1 px-3 focus:outline-none hover:bg-red-600 rounded text-base mt-4 md:mt-0"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
+            <>
+              {/* Show Logout and View Profile when logged in */}
+              <button
+                className="inline-flex items-center text-white bg-red-500 border-0 py-1 px-3 focus:outline-none hover:bg-red-600 rounded text-base mt-4 md:mt-0"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+              <button
+                className="inline-flex items-center text-white bg-blue-500 border-0 py-1 px-3 focus:outline-none hover:bg-blue-600 rounded-full text-base mt-4 md:mt-0"
+                onClick={() => {
+                  navigate("/profile"); // Navigate to /profile on click
+                }}
+              >
+                <FontAwesomeIcon icon={faUser} size="lg" />
+              </button>
+            </>
           )}
         </div>
       </div>

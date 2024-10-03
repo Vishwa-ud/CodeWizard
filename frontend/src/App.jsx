@@ -23,6 +23,7 @@ import CheckSyntaxError from "./components/Sathira/CheckSyntaxError";
 import Login from "./components/Sathira/Auth/Login";
 import Register from "./components/Sathira/Auth/Register";
 import ProblemHome from "./components/Sathira/ProblemHome";
+import Profile from "./components/Sathira/Profile";
 
 function App() {
   const [boardModalOpen, setBoardModalOpen] = useState(false);
@@ -124,6 +125,14 @@ function App() {
             element={
               <>
                 <ProblemHome />
+              </>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <>
+                <Profile />
               </>
             }
           />

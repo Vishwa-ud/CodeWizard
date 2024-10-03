@@ -3,7 +3,7 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import Modal from 'react-modal';
 import parse from 'html-react-parser';
-import { getToken } from '../utils/auth';
+import { getToken } from '../../utils/auth';
 import ReactQuill from 'react-quill'; // Import ReactQuill
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import hljs from 'highlight.js';
