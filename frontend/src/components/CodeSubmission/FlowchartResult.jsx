@@ -10,35 +10,43 @@ function FlowchartResult({ flowchartCode }) {
     "line-length": 50,
     "text-margin": 10,
     "font-size": 14,
-    "font-color": "black", // Changed font color inside shapes to black
-    "line-color": "white", // Line color to white for better visibility
-    "element-color": "black", // Default color of the elements is black
-    fill: "white", // Fill color of shapes is white
-    "yes-text": "yes",
-    "no-text": "no",
+    "font-color": "black", // Default font color
+    "line-color": "white", // Line color for visibility
+    "element-color": "black", // Default element color
+    fill: "white", // Fill color for shapes
+    "yes-text": "YES",
+    "no-text": "NO",
     "arrow-end": "block",
     scale: 1.4,
     symbols: {
       start: {
         "font-color": "white", 
-        "element-color": "black", // Start node outline color is black
-        "fill": "black", // Start node fill color is black
+        "element-color": "black", // Outline color
+        "fill": "black", // Fill color for start node
         "font-weight": "bold",
-        "line-color": "white", // Line color for start node is white
-        "shape": "circle", // Start node shape is a circle
+        "line-color": "white", // Line color for start node
+        "shape": "circle",
       },
       end: {
-        "font-color": "white", // Text inside end node is black
-        "element-color": "black", // End node outline color is black
-        "fill": "black", // End node fill color is black
+        "font-color": "white", // End node text color
+        "element-color": "black", // Outline color for end node
+        "fill": "black", // Fill color for end node
         "font-weight": "bold",
-        "line-color": "white", // Line color for end node is white
-        "shape": "circle", // End node shape is a circle
+        "line-color": "white", // Line color for end node
+        "shape": "circle",
       },
+      condition: { // Customize if/else conditions
+        "font-color": "black", // Default font color inside condition node
+        "element-color": "black", // Outline color for condition node
+        "fill": "white", // Fill color for condition node
+        "yes-text-color": "white", // Yes text color is now white
+        "no-text-color": "white", // No text color is now white
+      }
     },
-    "yes-text-color": "white", // Change yes-text color to white
-    "no-text-color": "white",  // Change no-text color to white
+    "yes-text-color": "white",  // Setting YES text color to white
+    "no-text-color": "white",   // Setting NO text color to white
   };
+  
   
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import Wizard from "../../assets/wizard.png";
 import PropTypes from "prop-types";
