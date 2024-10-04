@@ -53,26 +53,6 @@ const Register = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-200 to-gray-300">
-      <header className="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-6 shadow-md flex items-center justify-between">
-        <div className="container mx-auto flex items-center justify-between">
-          <div className="text-center">
-            <h1 className="text-4xl font-extrabold">MyApp</h1>
-            <p className="text-lg mt-2">Create your account</p>
-          </div>
-          <div>
-            <button 
-              onClick={() => navigate('/register')} 
-              className="bg-pink-700 hover:bg-pink-800 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-300 mr-2">
-              Sign Up
-            </button>
-            <button 
-              onClick={() => navigate('/')} 
-              className="bg-purple-700 hover:bg-purple-800 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-300">
-              Sign In
-            </button>
-          </div>
-        </div>
-      </header>
 
       <main className="flex-grow flex items-center justify-center bg-gray-100">
         <div className="max-w-lg w-full p-8 bg-white shadow-lg rounded-lg border border-gray-300">

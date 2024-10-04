@@ -26,27 +26,6 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300">
-      <header className="bg-gradient-to-r from-teal-500 to-blue-600 text-white p-6 shadow-md flex items-center justify-between">
-        <div className="container mx-auto flex items-center justify-between">
-          <div className="text-center">
-            <h1 className="text-4xl font-extrabold">MyApp</h1>
-            <p className="text-lg mt-2">Login to your account</p>
-          </div>
-          <div>
-            <button 
-              onClick={() => navigate('/register')} 
-              className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-300 mr-2">
-              Sign Up
-            </button>
-            <button 
-              onClick={() => navigate('/')} 
-              className="bg-teal-700 hover:bg-teal-800 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-300">
-              Sign In
-            </button>
-          </div>
-        </div>
-      </header>
-
       <main className="flex-grow flex items-center justify-center">
         <div className="max-w-md w-full p-8 bg-white shadow-lg rounded-lg border border-gray-300">
           <h2 className="text-3xl font-bold mb-6 text-gray-800 text-center">Login</h2>

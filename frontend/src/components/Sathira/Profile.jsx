@@ -7,6 +7,7 @@ import { getToken } from '../../utils/auth';
 import ReactQuill from 'react-quill'; // Import ReactQuill
 import 'react-quill/dist/quill.snow.css'; // Import Quill styles
 import hljs from 'highlight.js';
+import Header from '../Home/Header';
 
 // Modal settings
 Modal.setAppElement('#root');
@@ -201,22 +202,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <header className="bg-gradient-to-r from-blue-500 to-teal-500 text-white p-6 shadow-lg mb-6 rounded-lg">
-        <nav className="container mx-auto flex items-center justify-between">
-          <div className="text-2xl font-extrabold">
-            <a href="/home">MyApp</a>
-          </div>
-          <div className="space-x-6 flex items-center">
-            <a href="/home" className="flex items-center space-x-1 hover:bg-blue-700 p-3 rounded-lg transition-colors">
-              Home
-            </a>
-            <a href="/profile" className="flex items-center space-x-1 hover:bg-blue-700 p-3 rounded-lg transition-colors">
-              Profile
-            </a>
-          </div>
-        </nav>
-      </header>
-
+      <Header />
       <div className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md mb-8">
         <div className="flex items-center mb-6">
           <img

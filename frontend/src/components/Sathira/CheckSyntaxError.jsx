@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
 import axios from 'axios';
 import * as BabelParser from '@babel/parser';
+import Header from '../Home/Header';
 
 const CheckSyntaxError = () => {
   const [code, setCode] = useState('');
@@ -114,27 +115,7 @@ const CheckSyntaxError = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col">
-      {/* Header */}
-      <header className="bg-gradient-to-r from-blue-500 to-teal-500 text-white p-6 shadow-lg flex items-center justify-between">
-        <div className="text-2xl font-extrabold">
-          <a href="/home">MyApp</a>
-        </div>
-        <div className="space-x-6">
-          <a href="/home" className="hover:bg-blue-700 p-3 rounded-lg transition-colors">Home</a>
-          <a href="/check-syntax" className="bg-blue-700 hover:bg-blue-800 p-3 rounded-lg transition-colors">Check Syntax</a>
-          <a href="/profile" className="hover:bg-blue-700 p-3 rounded-lg transition-colors">Profile</a>
-          <button
-            onClick={() => {
-              localStorage.removeItem('token'); // Handle logout
-              window.location.href = '/login'; // Redirect to login page
-            }}
-            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow-md"
-          >
-            Logout
-          </button>
-        </div>
-      </header>
-
+      <Header />
       {/* Main Content */}
       <main className="flex-grow p-6 flex flex-col">
         <h1 className="text-4xl font-extrabold text-gray-100 mb-6">Check Syntax Error Page</h1>

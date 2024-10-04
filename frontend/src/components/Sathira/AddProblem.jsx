@@ -7,6 +7,7 @@ import 'prismjs/themes/prism-tomorrow.css'; // Import Prism styles
 import 'highlight.js/styles/github.css'; // Import highlight.js styles
 import hljs from 'highlight.js';
 import { jwtDecode } from 'jwt-decode'; // Import jwt-decode to decode token
+import Header from '../Home/Header';
 
 // Ensure Quill uses highlight.js for code syntax highlighting
 const modules = {
@@ -58,22 +59,7 @@ const AddProblem = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <header className="bg-gradient-to-r from-blue-500 to-teal-500 text-white p-6 shadow-lg">
-        <nav className="container mx-auto flex items-center justify-between">
-          <div className="text-2xl font-extrabold">
-            <a href="/home">MyApp</a>
-          </div>
-          <div className="space-x-6 flex items-center">
-            <a href="/home" className="flex items-center space-x-1 hover:bg-blue-700 p-3 rounded-lg transition-colors">
-              Home
-            </a>
-            <a href="/profile" className="flex items-center space-x-1 hover:bg-blue-700 p-3 rounded-lg transition-colors">
-              Profile
-            </a>
-          </div>
-        </nav>
-      </header>
-
+      <Header />
       <main className="container mx-auto max-w-2xl bg-white p-8 mt-8 rounded-lg shadow-md">
         <h1 className="text-3xl font-bold mb-4">Add a New Problem</h1>
         <form onSubmit={handleSubmit}>

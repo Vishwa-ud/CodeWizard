@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import parse from 'html-react-parser';
 import { useNavigate } from 'react-router-dom';
+import Header from '../Home/Header';
 
 const ProblemHome = () => {
   const [problems, setProblems] = useState([]);
@@ -12,6 +13,7 @@ const ProblemHome = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isDarkMode, setIsDarkMode] = useState(false); // State for dark mode
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -111,7 +113,6 @@ const ProblemHome = () => {
             </pre>
           );
         }
-        // Add other replacements as needed
       }
     });
   };
@@ -127,43 +128,51 @@ const ProblemHome = () => {
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
+
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove token or user data from local storage
     navigate('/'); // Redirect to the login page
   };
 
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    setIsDarkMode(prevMode => !prevMode);
+  };
+
+  // Set the appropriate class for dark or light mode
+  const themeClass = isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900';
+  const textColor = isDarkMode ? 'text-white' : 'text-gray-900'; // Define text color based on theme
+  const commentBgColor = isDarkMode ? 'bg-gray-800' : 'bg-gray-50'; // Background color for comments
+  const commentTextColor = isDarkMode ? 'text-gray-200' : 'text-gray-800'; // Text color for comments
+  const replyBgColor = isDarkMode ? 'bg-gray-700' : 'bg-gray-50'; // Background color for replies
+  const replyTextColor = isDarkMode ? 'text-gray-300' : 'text-gray-800'; // Text color for replies
+
   if (loading) return <p className="text-center text-lg text-gray-600">Loading...</p>;
   if (error) return <p className="text-center text-red-600">{error}</p>;
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-gradient-to-r from-blue-500 to-teal-500 text-white p-6 shadow-lg">
-        <nav className="container mx-auto flex items-center justify-between">
-          <div className="text-2xl font-extrabold">
-            <a href="/home">MyApp</a>
-          </div>
-          <div className="space-x-6 flex items-center">
-            <a href="/home" className="flex items-center space-x-1 hover:bg-blue-700 p-3 rounded-lg transition-colors">
-              Home
-            </a>
-            <a href="/syntax" className="flex items-center space-x-1 hover:bg-blue-700 p-3 rounded-lg transition-colors">
-            Check Syntax Error Page
-            </a>
-            <a href="/profile" className="flex items-center space-x-1 hover:bg-blue-700 p-3 rounded-lg transition-colors">
-              Profile
-            </a>
-            <button
-              onClick={handleLogout}
-              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow-md"
-            >
-              Logout
-            </button>
-          </div>
-        </nav>
-      </header>
-
+    <div className={`min-h-screen ${themeClass}`}>
+      <Header />
       <main className="flex flex-col items-center justify-center min-h-screen p-6">
-        <h1 className="text-5xl font-extrabold mb-6 text-gray-900">Problems</h1>
+        <h1 className={`text-5xl font-extrabold mb-6 ${textColor}`}>Problems</h1>
+
+        {/* Dark Mode Toggle Switch */}
+        <div className="mb-6">
+          <label className="flex items-center cursor-pointer">
+            <span className={`mr-2 ${textColor}`}>Light Mode</span>
+            <div className="relative">
+              <input 
+                type="checkbox" 
+                checked={isDarkMode} 
+                onChange={toggleDarkMode} 
+                className="hidden"
+              />
+              <div className="toggle-bg bg-gray-300 w-14 h-8 rounded-full shadow-inner"></div>
+              <div className={`toggle-dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform ${isDarkMode ? 'translate-x-6' : 'translate-x-0'}`}></div>
+            </div>
+            <span className={`ml-2 ${textColor}`}>Dark Mode</span>
+          </label>
+        </div>
 
         {/* Search Bar */}
         <div className="mb-6 w-full max-w-3xl">
@@ -172,7 +181,7 @@ const ProblemHome = () => {
             value={searchQuery}
             onChange={handleSearchChange}
             placeholder="Search problems by title or description..."
-            className="w-full p-3 border border-gray-300 rounded-lg text-gray-700 placeholder-gray-500 shadow-md"
+            className={`w-full p-3 border border-gray-300 rounded-lg ${textColor} placeholder-gray-500 shadow-md`}
           />
         </div>
 
@@ -183,56 +192,56 @@ const ProblemHome = () => {
         </div>
         
         {filteredProblems.length === 0 ? (
-          <p className="text-gray-600">No problems available</p>
+          <p className={`text-gray-600 ${textColor}`}>No problems available</p>
         ) : (
           <ul className="space-y-8 w-full max-w-3xl">
             {filteredProblems.map(problem => (
-              <li key={problem._id} className="bg-white p-8 rounded-lg shadow-lg">
-                <h2 className="text-3xl font-bold mb-4 text-gray-800">{problem.title}</h2>
-                <div className="mb-4">{renderContent(problem.description)}</div>
+              <li key={problem._id} className={`p-8 rounded-lg shadow-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+                <h2 className={`text-3xl font-bold mb-4 ${textColor}`}>{problem.title}</h2>
+                <div className={`mb-4 ${textColor}`}>{renderContent(problem.description)}</div>
 
-                <h3 className="text-2xl font-semibold mb-4 text-gray-800">Comments:</h3>
+                <h3 className={`text-2xl font-semibold mb-4 ${textColor}`}>Comments:</h3>
                 <ul className="space-y-4">
-                  {(comments[problem._id] || []).map(comment => (
-                    <li key={comment._id} className="border border-gray-300 p-6 rounded-lg bg-gray-50 shadow-md">
-                      <p className="text-gray-800 mb-4">{comment.text}</p>
-                      <div className="mt-4">
-                        <h4 className="font-semibold text-gray-800">Replies:</h4>
-                        <ul className="space-y-2 mt-2">
-                          {(comment.replies || []).map(reply => (
-                            <li key={reply._id} className="border border-gray-200 p-4 rounded-lg bg-gray-100 shadow-sm">
-                              <p className="text-gray-700">{reply.text}</p>
+                  {comments[problem._id]?.map(comment => (
+                    <li key={comment._id} className={`p-4 rounded-lg shadow-md ${commentBgColor}`}>
+                      <span className={`${commentTextColor}`}>{comment.text}</span>
+                      <div className="mt-2">
+                        <h4 className={`text-lg font-semibold ${textColor}`}>Replies:</h4>
+                        <ul className="space-y-2">
+                          {comment.replies?.map(reply => (
+                            <li key={reply._id} className={`p-2 rounded-lg ${replyBgColor}`}>
+                              <span className={`${replyTextColor}`}>{reply.text}</span>
                             </li>
                           ))}
                         </ul>
-                        <textarea
-                          value={newReply[comment._id] || ''}
-                          onChange={(e) => handleReplyChange(comment._id, e)}
-                          className="w-full p-3 border border-gray-300 rounded-lg mt-4 mb-2 text-gray-700 placeholder-gray-500"
-                          rows="3"
-                          placeholder="Add a reply..."
-                        />
-                        <button
-                          onClick={() => handleAddReply(comment._id, problem._id)}
-                          className="bg-teal-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-teal-600 transition-colors text-sm"
-                        >
-                          Reply
-                        </button>
                       </div>
+                      <input
+                        type="text"
+                        value={newReply[comment._id] || ''}
+                        onChange={(e) => handleReplyChange(comment._id, e)}
+                        placeholder="Write a reply..."
+                        className={`mt-2 w-full p-2 border border-gray-300 rounded-lg ${textColor} placeholder-gray-500 shadow-md`}
+                      />
+                      <button
+                        onClick={() => handleAddReply(comment._id, problem._id)}
+                        className="bg-teal-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-teal-600 transition-colors mt-2"
+                      >
+                        Reply
+                      </button>
                     </li>
                   ))}
                 </ul>
 
-                <textarea
+                <input
+                  type="text"
                   value={newComment[problem._id] || ''}
                   onChange={(e) => handleCommentChange(problem._id, e)}
-                  className="w-full p-3 border border-gray-300 rounded-lg mt-6 mb-4 text-gray-700 placeholder-gray-500"
-                  rows="4"
-                  placeholder="Add a comment..."
+                  placeholder="Write a comment..."
+                  className={`mt-4 w-full p-2 border border-gray-300 rounded-lg ${textColor} placeholder-gray-500 shadow-md`}
                 />
                 <button
                   onClick={() => handleAddComment(problem._id)}
-                  className="bg-teal-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-teal-600 transition-colors"
+                  className="bg-teal-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-teal-600 transition-colors mt-2"
                 >
                   Comment
                 </button>
