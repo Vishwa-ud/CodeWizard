@@ -10,9 +10,15 @@ services:
       - ./api-gateway:/app
     environment:
       - SERVICE_NAME_CA=http://codebase-analyzer:3001
+  Code-Optimizer:
+    container_name: code-optimizer
+    build: ./services/Code-Optimizer
+    volumes:
+      - ./services/Code-Optimizer:/app
   codebase-analyzer:
     container_name: codebase-analyzer
     build: ./services/Codebase-Analyzer
     volumes:
       - ./services/Codebase-Analyzer:/app
+  
 

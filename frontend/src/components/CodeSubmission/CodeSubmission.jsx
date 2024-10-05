@@ -130,7 +130,7 @@ function CodeSubmission() {
 
   return (
     <>
-      <Header p={true} />
+      <Header p={false} />
       <ShaderCanvas/>
       <section className="text-gray-400 bg-transparent body-font relative h-screen">
         <div className="container px-5 py-8 mx-auto flex flex-col h-full">
@@ -243,7 +243,10 @@ function CodeSubmission() {
 
           {/* Flowchart Result */}
           {flowchartCode && (
-            <FlowchartResult flowchartCode={flowchartCode} />
+           <div className="mt-4 bg-black bg-opacity-10 backdrop-blur-xl p-4 rounded-lg overflow-y-auto min-h-[90vh]">
+           <FlowchartResult flowchartCode={flowchartCode} />
+         </div>
+         
           )}
         </div>
       </section>
