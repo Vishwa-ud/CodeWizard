@@ -19,6 +19,12 @@ import CodeAnalysisPage from "./components/Vinuki/CodeAnalysisPage";
 
 //common
 import CodeSubmission from "./components/CodeSubmission/CodeSubmission";
+import CheckSyntaxError from "./components/Sathira/CheckSyntaxError";
+import Login from "./components/Sathira/Auth/Login";
+import Register from "./components/Sathira/Auth/Register";
+import ProblemHome from "./components/Sathira/ProblemHome";
+import Profile from "./components/Sathira/Profile";
+import AddProblem from "./components/Sathira/AddProblem";
 
 function App() {
   const [boardModalOpen, setBoardModalOpen] = useState(false);
@@ -91,6 +97,54 @@ function App() {
           />
 
           {/* Sathira */}
+          <Route
+            path="/syntax-error"
+            element={
+              <>
+                <CheckSyntaxError />
+              </>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <>
+                <Login />
+              </>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <>
+                <Register />
+              </>
+            }
+          />
+          <Route
+            path="/problemHome"
+            element={
+              <>
+                <ProblemHome />
+              </>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <>
+                <Profile />
+              </>
+            }
+          />
+          <Route
+            path="/add-problem"
+            element={
+              <>
+                <AddProblem />
+              </>
+            }
+          />
 
           {/* disable other routes */}
           <Route path="*" element={<Home />} />

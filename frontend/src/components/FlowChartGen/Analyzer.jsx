@@ -4,6 +4,7 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import ShaderCanvas from './ShaderCanvas';
 import ResultAnalysis from './ResultAnalysis';
+import Header from '../Home/Header';
 
 function Analyzer() {
   const [codeSnippet, setCodeSnippet] = useState('');
@@ -50,6 +51,7 @@ function Analyzer() {
 
   return (
     <>
+      <Header p={false}/>
       <ShaderCanvas />
 
       <section className="text-gray-400 bg-transparent body-font relative h-screen">
