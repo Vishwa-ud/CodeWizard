@@ -8,31 +8,20 @@
           "name": "Todo",
           "tasks": [
             {
-              "title": "Build UI for onboarding flow",
+              "title": "Evaluation of UI designs CSSE",
               "description": "",
               "status": "Todo",
               "subtasks": [
-                {
-                  "title": "Sign up page",
-                  "isCompleted": true
-                },
-                {
-                  "title": "Sign in page",
-                  "isCompleted": false
-                },
-                {
-                  "title": "Welcome page",
-                  "isCompleted": false
-                }
+                
               ]
             },
             {
-              "title": "Build UI for search",
+              "title": " Implementation of design patterns CSSE",
               "description": "",
               "status": "Todo",
               "subtasks": [
                 {
-                  "title": "Search page",
+                  "title": " Coding conventions,and best practices",
                   "isCompleted": false
                 }
               ]
@@ -43,11 +32,11 @@
               "status": "Todo",
               "subtasks": [
                 {
-                  "title": "Account page",
+                  "title": "sequence and Wireframe",
                   "isCompleted": false
                 },
                 {
-                  "title": "Billing page",
+                  "title": "Critical Reflection Report",
                   "isCompleted": false
                 }
               ]
@@ -58,11 +47,11 @@
               "status": "Todo",
               "subtasks": [
                 {
-                  "title": "Internal testing",
+                  "title": "Unit testing",
                   "isCompleted": false
                 },
                 {
-                  "title": "External testing",
+                  "title": "Integration testing",
                   "isCompleted": false
                 }
               ]
@@ -122,22 +111,22 @@
               ]
             },
             {
-              "title": "Add search enpoints",
+              "title": "Add Donation enpoints",
               "description": "",
               "status": "Doing",
               "subtasks": [
                 {
-                  "title": "Add search endpoint",
+                  "title": "Add Donation endpoint",
                   "isCompleted": true
                 },
                 {
-                  "title": "Define search filters",
+                  "title": "Define Donation types",
                   "isCompleted": false
                 }
               ]
             },
             {
-              "title": "Add authentication endpoints",
+              "title": "Add authentication endpoints UEE",
               "description": "",
               "status": "Doing",
               "subtasks": [
@@ -147,25 +136,6 @@
                 },
                 {
                   "title": "Add auth endpoints",
-                  "isCompleted": false
-                }
-              ]
-            },
-            {
-              "title": "Research pricing points of various competitors and trial different business models",
-              "description": "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
-              "status": "Doing",
-              "subtasks": [
-                {
-                  "title": "Research competitor pricing and business models",
-                  "isCompleted": true
-                },
-                {
-                  "title": "Outline a business model that works for our solution",
-                  "isCompleted": false
-                },
-                {
-                  "title": "Talk to potential customers about our proposed solution and ask for fair price expectancy",
                   "isCompleted": false
                 }
               ]
@@ -219,7 +189,7 @@
                   "isCompleted": true
                 },
                 {
-                  "title": "Make changes to paper prototypes",
+                  "title": "Make changes to prototypes",
                   "isCompleted": true
                 },
                 {
@@ -234,7 +204,7 @@
               "status": "Done",
               "subtasks": [
                 {
-                  "title": "Create paper prototypes for version one",
+                  "title": "Sketching, Wireframes for individual componets",
                   "isCompleted": true
                 },
                 {
@@ -249,11 +219,11 @@
               "status": "Done",
               "subtasks": [
                 {
-                  "title": "Write up research analysis",
+                  "title": "Write Concultion",
                   "isCompleted": true
                 },
                 {
-                  "title": "Calculate TAM",
+                  "title": "Complete References",
                   "isCompleted": true
                 }
               ]
