@@ -91,7 +91,7 @@ function App() {
             path="/code-analysis"
             element={
               <>
-                <CodeAnalysisPage />
+                {/* <CodeAnalysisPage /> */}
               </>
             }
           />

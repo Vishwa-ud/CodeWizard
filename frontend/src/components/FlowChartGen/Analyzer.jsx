@@ -51,6 +51,7 @@ function Analyzer() {
 
   return (
     <>
+      {/* adding p = true adds transperancy, else none */}
       <Header p={false}/>
       <ShaderCanvas />
 
