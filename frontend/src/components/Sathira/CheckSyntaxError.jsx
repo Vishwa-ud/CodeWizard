@@ -3,6 +3,7 @@ import Editor from '@monaco-editor/react';
 import axios from 'axios';
 import * as BabelParser from '@babel/parser';
 import Header from '../Home/Header';
+import ShaderCanvas from './ShaderCanvas';
 
 const CheckSyntaxError = () => {
   const [code, setCode] = useState('');
@@ -114,7 +115,8 @@ const CheckSyntaxError = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col">
+    <div className="min-h-screen text-gray-100 flex flex-col">
+      <ShaderCanvas/>
       <Header />
       {/* Main Content */}
       <main className="flex-grow p-6 flex flex-col">
