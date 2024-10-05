@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import CodeInput from './CodeInput';
+import CodeInput from '../../../../services/Code-Optimiser/src/components/CodeInput';
 import OptimizedCode from './OptimizedCode';
-import MetricsChart from './MetricsChart';
-import { analyzeCode } from '../utils/codeAnalysis';
+import MetricsChart from '../../../../services/Code-Optimiser/src/components/MetricsChart';
+import { analyzeCode } from '../../../../services/Code-Optimiser/src/utils/codeAnalysis';
 import { formatCode, analyzeCodeStructure } from '../codeProcessing/codeFormatter';
 
 const CodeAnalyzer = () => {
