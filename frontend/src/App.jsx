@@ -15,7 +15,7 @@ import EmptyBoard from "./components/Taskmanagement/EmptyBoard";
 import Analyzer from "./components/FlowChartGen/Analyzer";
 
 //vinu
-import CodeAnalysisPage from "./components/Vinuki/CodeAnalysisPage";
+
 
 //common
 import CodeSubmission from "./components/CodeSubmission/CodeSubmission";

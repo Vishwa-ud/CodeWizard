@@ -1,37 +1,40 @@
+import React from 'react';
 
-import { useState } from 'react';
+// code input compoennt
+const CodeInput = ({
+  code,
+  setCode,
+  onAnalyze,
+  showOptimizedCode,
+  optimizedCode,
+  toggleOptimizedCode,
+}) => (
+  <div className={`w-full ${showOptimizedCode ? 'w-1/2' : ''}`}>
+    <textarea
+      className="w-full h-40 p-2 border border-gray-300 rounded-md resize-none"
+      value={code}
+      onChange={(e) => setCode(e.target.value)}
+      placeholder="Enter your JavaScript code here..."
+    />
 
+    <div className="mt-4 space-y-2">
+      <button
+        className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        onClick={onAnalyze}
+      >
+        Analyze Code
+      </button>
 
-function CodeInput({ onAnalyze }) {
-
-  const [code, setCode] = useState('');
-
-  const handleAnalyze = () => {
-    onAnalyze(code);
-  };
-  
-  return (
-    <div className="card shadow-sm">
-
-      <div className="card-header bg-primary text-white">Code Input Area</div>
-      
-      <div className="card-body">
-        
-        <textarea
-          className="form-control"
-          rows="15"
-          placeholder="Paste your code here..."
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-        ></textarea>
-
-        <button className="btn btn-primary mt-2" onClick={handleAnalyze}>
-          Analyze Code
+      {optimizedCode && (
+        <button
+          className="w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          onClick={toggleOptimizedCode}
+        >
+          {showOptimizedCode ? 'Hide Optimized Code' : 'View Optimized Code'}
         </button>
-
-      </div>
+      )}
     </div>
-  );
-}
+  </div>
+);
 
 export default CodeInput;
