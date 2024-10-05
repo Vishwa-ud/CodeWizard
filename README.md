@@ -1,65 +1,66 @@
-# CodeBase-Analyzer-microservice
 
-  
+# CodeWizard Microservice Project
 
-This is a Microservice Project with Frontend and API Gateway
+This project is a microservice-based architecture that includes a frontend application and an API gateway for handling communication between services. The microservice we're focusing on is the CodeBase Analyzer, which processes and analyzes codebases.
 
 ## Open Ports
 
+| Port  | Service                | Access                          |
+|-------|------------------------|---------------------------------|
+| 5000  | API Gateway             | ✅ All communications go through this gateway |
+| 5173  | Default Frontend             | ⚓ Frontend PORT |
+| 3001  | CodeBase Analyzer       | 🚫 No direct access, use API Gateway |
 
-- ✅5000 : api gateway [all comms happened through here]
-
-- 🚫3001 : codebase analyzer [no direct access use api-gateway]
-
-  
 ## Project Structure
 
-  
-- **frontend/**: Contains the React frontend application.
-
-- **services/**: Contains the microservices (e.g., codebase-analyzer, service-2).
-
-- **api-gateway/**: Contains the API Gateway configuration.
-
-- **docker-compose.yml**: Docker Compose configuration file to orchestrate the services.
-
+```bash
+CodeWizard/
+├── frontend/            # React frontend application
+├── services/            # Microservices (e.g., codebase-analyzer, service-2)
+├── api-gateway/         # API Gateway configuration
+└── docker-compose.yml   # Docker Compose configuration file
+```
 
 ## Setup Instructions
 
-  
-1. **Clone the repository:**
+### 1. Clone the Repository
 
-   ```bash
-   git clone https://github.com/nxdun/CodeWizard.git
+Clone the repository using the following command:
 
-   ```
-2. **Build and run the services:**
+```bash
+git clone https://github.com/nxdun/CodeWizard.git
+```
 
-- Using Docker Compose
-   ```bash
+### 2. Build and Run the Services
 
-   docker-compose up --build
+To build and start the services, use Docker Compose:
 
+```bash
+docker-compose up --build
+```
 
- ```
-3. **Access the frontend:**
+### 3. Access the Frontend
 
-   - vite
+The frontend is served on `http://localhost:5173` via Vite. Open your browser and navigate to the following address:
 
-   - Open your browser and navigate to `http://localhost:5173`.
+```bash
+http://localhost:5173
+```
 
-4. **API Gateway:**
+### 4. API Gateway
 
-   - The API Gateway routes requests to the appropriate services:
+The API Gateway (port `5000`) is responsible for routing requests between the frontend and the backend services. All communications are managed through this gateway.
+
+### Docker Compose
+
+Ensure you have Docker and Docker Compose installed before proceeding. Docker Compose will orchestrate all services, including the frontend, backend, and API Gateway.
 
 ## Notes
 
-- Ensure Docker and Docker Compose are installed on your machine.
+- **Frontend Port:** The frontend runs on port `3000` locally.
+- **API Gateway:** All backend services, including the CodeBase Analyzer, are accessed via the API Gateway on port `5000`.
+- **CodeBase Analyzer:** This service is isolated and cannot be accessed directly; all requests must go through the API Gateway.
 
-- The frontend is served on port 3000.
+## Getting Help
 
-- The API Gateway handles routing between the frontend and backend services.
-
-```python
-
-```
+For issues or contributions, please open an issue or submit a pull request on the [GitHub repository](https://github.com/nxdun/CodeWizard).
