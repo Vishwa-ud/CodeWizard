@@ -14,7 +14,7 @@ import AddEditBoardModal from "../../modals/AddEditBoardModal";
 
 function Sidebar({ isSideBarOpen, setIsSideBarOpen }) {
   const dispatch = useDispatch();
-  const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
+  const [isBoardModalOpen, setBoardModalOpen] = useState(false);
   const [colorTheme, setTheme] = useDarkMode();
   const [darkSide, setDarkSide] = useState(
     colorTheme === "light" ? true : false
@@ -70,7 +70,7 @@ function Sidebar({ isSideBarOpen, setIsSideBarOpen }) {
                   <div
                     className=" flex  items-baseline space-x-2  mr-8 rounded-r-full duration-500 ease-in-out cursor-pointer text-[#635fc7] px-5 py-4 hover:bg-[#635fc71a] hover:text-[#635fc7] dark:hover:bg-white  "
                     onClick={() => {
-                      setIsBoardModalOpen(true);
+                      setBoardModalOpen(true);
                     }}
                   >
                     <img src={boardIcon} className="   filter-white  h-4 " />
@@ -125,7 +125,7 @@ function Sidebar({ isSideBarOpen, setIsSideBarOpen }) {
       {isBoardModalOpen && (
         <AddEditBoardModal
           type="add"
-          setIsBoardModalOpen={setIsBoardModalOpen}
+          setBoardModalOpen={setBoardModalOpen}
         />
       )}
     </div>
