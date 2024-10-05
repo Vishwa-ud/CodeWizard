@@ -7,6 +7,7 @@ function AddEditBoardModal({ setBoardModalOpen , type ,  }) {
     const dispatch = useDispatch();
     const [name, setName] = useState("");
     const [isValid, setIsValid] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
     const [newColumns, setNewColumns] = useState([
         { name: "Todo", tasks: [], id: uuidv4() },
         { name: "In Progress", tasks: [], id: uuidv4() },
@@ -24,7 +25,9 @@ function AddEditBoardModal({ setBoardModalOpen , type ,  }) {
     };
     const validate = () => {
         setIsValid(false);
+        setErrorMessage(""); // Reset the error message
         if (!name.trim()) {
+          setErrorMessage("Board name is required.");
           return false;
         }
         for (let i = 0 ; i < newColumns.length ; i++) {
@@ -74,6 +77,7 @@ function AddEditBoardModal({ setBoardModalOpen , type ,  }) {
                 onChange={(e) => setName(e.target.value)}
                 id="board-name-input"
             />
+             {!isValid && <span className="text-red-500 text-xs">{errorMessage}</span>}
             </div>
             {/* Board Columns */}
             <div className="mt-8 flex flex-col space-y-3">
